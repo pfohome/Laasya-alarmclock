@@ -1,0 +1,1235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffe3ee">
+<style>[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<title>Laasya's Bedtime Burrow</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Nunito:wght@500;700;800;900&display=swap">
+<style>
+/* Layout: polka-dot pillow world. Hash-routed pages (welcome quiz, home, routine, morning, diary, wardrobe) share a header + tab bar. Single cozy pink look by design. */
+:root{
+  --bg:#ffe3ee; --dot:#ffd0e1; --dot2:#fff0f6;
+  --card:#fffafc; --blush:#ffc6dc; --pink:#ff8ab6; --deep:#e0508a; --press:#b93a6c;
+  --lilac:#c9b6ff; --mint:#c4f0de; --green:#3fae86; --butter:#ffe7a3;
+  --ink:#6a3553; --soft:#9a6283;
+  --night1:#2a2150; --night2:#634788; --nightInk:#fbeaff;
+  --display:'Mochiy Pop One','Nunito',ui-rounded,'Arial Rounded MT Bold',system-ui,sans-serif;
+  --body:'Nunito',ui-rounded,'Arial Rounded MT Bold',system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;font-family:var(--body);font-size:16px;line-height:1.5;color:var(--ink);
+  background-color:var(--bg);
+  background-image:radial-gradient(var(--dot) 16%,transparent 17%),radial-gradient(var(--dot2) 12%,transparent 13%);
+  background-size:34px 34px,34px 34px;background-position:0 0,17px 17px;overflow-x:hidden}
+.floaties{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.floaties span{position:absolute;bottom:-50px;font-size:22px;opacity:.5;animation:floatUp linear infinite}
+@keyframes floatUp{from{transform:translateY(0) rotate(-10deg)}to{transform:translateY(-115vh) rotate(25deg)}}
+
+.wrap{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding-block:18px 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo svg{width:50px;height:56px}
+.logo h1{font-family:var(--display);font-weight:400;font-size:clamp(21px,4.4vw,31px);line-height:1.1;margin:0;color:var(--deep);text-wrap:balance;text-shadow:2px 2px 0 #fff,4px 4px 0 var(--blush)}
+.logo small{display:block;font-family:var(--body);font-weight:800;font-size:13px;color:var(--soft);letter-spacing:.04em;text-shadow:none}
+.pill{display:inline-flex;align-items:center;gap:8px;background:#fff;border:3px solid var(--blush);border-radius:999px;padding:7px 14px;font-weight:800;font-size:14px;color:var(--soft)}
+.pill.on{border-color:var(--mint);color:#2f7259;background:#f2fff9}
+.pill.wait{animation:nudge 2.4s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+
+/* nav */
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.nav a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:900;font-size:15px;color:var(--deep);background:#fff;border:3px solid var(--blush);border-radius:999px;padding:7px 16px;transition:transform .12s}
+.nav a:hover{transform:translateY(-2px)}
+.nav a.on{background:var(--deep);border-color:var(--deep);color:#fff;box-shadow:0 4px 0 var(--press)}
+.nav a .ico{font-size:18px}
+@media (max-width:640px){
+  .nav{position:fixed;z-index:20;left:0;right:0;bottom:0;margin:0;gap:0;justify-content:space-around;flex-wrap:nowrap;background:#fffafc;border-top:3px solid var(--blush);
+    padding:6px max(6px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px))}
+  .nav a{flex-direction:column;gap:0;font-size:11px;padding:4px 8px;border:none;background:none;border-radius:16px}
+  .nav a.on{background:#ffe9f2;color:var(--deep);box-shadow:none}
+  .wrap{padding-block:14px 110px}
+}
+
+/* views */
+.view{animation:viewIn .45s cubic-bezier(.3,1.35,.5,1)}
+@keyframes viewIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.grid{display:grid;grid-template-columns:1.3fr 1fr;gap:22px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:22px}
+@media (max-width:860px){.grid{grid-template-columns:1fr}.tiles{grid-template-columns:1fr}}
+.stack{display:flex;flex-direction:column;gap:22px}
+
+.card{position:relative;background:var(--card);border:3px solid var(--blush);border-radius:30px;padding:22px;box-shadow:0 7px 0 var(--blush),0 20px 40px rgba(224,80,138,.12);min-width:0}
+.card h2{font-family:var(--display);font-weight:400;font-size:20px;margin:0 0 14px;color:var(--deep);display:flex;align-items:center;gap:8px;text-wrap:balance}
+.card h3{font-family:var(--display);font-weight:400;font-size:18px;margin:0 0 8px;color:var(--deep)}
+.label{font-size:12px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;color:var(--soft)}
+.muted{color:var(--soft);font-weight:700}
+p{margin:0}
+
+/* hero */
+.hero{background:linear-gradient(160deg,#fff7fb 0%,#ffe9f3 55%,#f3ebff 100%);display:grid;grid-template-columns:1fr auto;gap:8px 18px;align-items:center;overflow:hidden}
+.hero .left{min-width:0;display:flex;flex-direction:column;gap:12px}
+.date{font-weight:800;color:var(--soft)}
+.clock{font-family:var(--display);color:var(--deep);font-size:clamp(56px,11vw,100px);line-height:.95;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:6px;text-shadow:3px 3px 0 #fff,6px 6px 0 var(--blush)}
+.clock .sec{font-size:.32em;color:var(--pink)}
+.clock .ap{font-size:.3em;color:var(--soft);text-shadow:none}
+.chip{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;background:var(--deep);color:#fff;border-radius:999px;padding:6px 14px;font-weight:900;font-size:15px;box-shadow:0 4px 0 var(--press)}
+.chip.late{background:#7a5bc7;box-shadow:0 4px 0 #563a9e}
+.chip.wind{background:var(--green);box-shadow:0 4px 0 #2b8565}
+.bubble{position:relative;background:#fff;border:3px solid var(--blush);border-radius:22px;padding:12px 16px;font-weight:700;max-width:48ch}
+.bubble.tail-r::after{content:"";position:absolute;right:-14px;top:22px;width:22px;height:22px;background:#fff;border-right:3px solid var(--blush);border-top:3px solid var(--blush);transform:rotate(45deg) skew(12deg,12deg);border-radius:0 6px 0 0}
+.bubble.tail-l::after{content:"";position:absolute;left:-14px;top:22px;width:22px;height:22px;background:#fff;border-left:3px solid var(--blush);border-bottom:3px solid var(--blush);transform:rotate(45deg) skew(12deg,12deg);border-radius:0 0 0 6px}
+.spot{position:relative;width:210px;align-self:end}
+.spot .bunny{width:100%;height:auto;display:block;cursor:pointer}
+.actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+@media (max-width:560px){
+  .hero{grid-template-columns:1fr}
+  .hero .spot{order:-1;width:150px;justify-self:center}
+  .bubble.tail-r::after,.bubble.tail-l::after{display:none}
+}
+
+/* controls */
+.btn{font:inherit;font-weight:900;font-size:16px;cursor:pointer;border:none;border-radius:999px;padding:13px 22px;background:var(--deep);color:#fff;box-shadow:0 5px 0 var(--press);transition:transform .08s,box-shadow .08s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{filter:brightness(1.05)}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--press)}
+.btn.ghost{background:#fff;color:var(--deep);box-shadow:0 5px 0 var(--blush);border:3px solid var(--blush);padding:10px 18px}
+.btn.ghost:active{box-shadow:0 1px 0 var(--blush)}
+.btn.green{background:var(--green);box-shadow:0 5px 0 #2b8565}
+.btn.small{font-size:14px;padding:8px 14px}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+:focus-visible{outline:3px dashed var(--lilac);outline-offset:3px}
+.linkish{font:inherit;font-weight:800;font-size:14px;background:none;border:none;color:var(--deep);cursor:pointer;text-decoration:underline;text-decoration-style:wavy;text-underline-offset:4px;padding:4px 0}
+.times{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.time-field{background:#fff;border:3px solid var(--blush);border-radius:22px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.time-field.bed{border-color:var(--lilac);background:#fbf8ff}
+.time-field.wake{border-color:#ffd27a;background:#fffbef}
+.time-field input{font-family:var(--display);font-size:22px;color:var(--ink);border:none;background:transparent;width:100%;padding:2px 0;min-width:0}
+.field{display:flex;flex-direction:column;gap:6px;margin-top:14px}
+select,input[type=text],textarea{font:inherit;font-weight:700;color:var(--ink);background:#fff;border:3px solid var(--blush);border-radius:16px;padding:10px 12px;width:100%}
+textarea{min-height:110px;resize:vertical}
+.soft-box{background:#fff1f7;border-radius:20px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.big{font-family:var(--display);font-size:24px;color:var(--deep);line-height:1.2}
+.bar{height:14px;background:#ffe9f2;border-radius:999px;overflow:hidden;border:2px solid var(--blush)}
+.bar i{display:block;height:100%;background:repeating-linear-gradient(-45deg,var(--pink) 0 10px,#ff9fc4 10px 20px);border-radius:999px;transition:width .6s}
+.toggle{display:flex;align-items:center;gap:10px;font-weight:800;cursor:pointer;margin-top:12px}
+.toggle input{width:22px;height:22px;accent-color:var(--deep)}
+
+/* tiles */
+.tile{display:flex;flex-direction:column;gap:8px;text-decoration:none;color:inherit;transition:transform .15s}
+.tile:hover{transform:translateY(-4px) rotate(-.5deg)}
+.tile .em{font-size:34px;line-height:1}
+.tile .go{margin-top:auto;font-weight:900;color:var(--deep)}
+
+/* friends */
+.friends{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+@media (max-width:760px){.friends{grid-template-columns:repeat(2,1fr)}}
+.friend{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px}
+.friend svg{width:92px;height:auto;cursor:pointer}
+.friend b{font-family:var(--display);font-weight:400;font-size:17px;color:var(--deep)}
+.friend span{font-size:13px;font-weight:700;color:var(--soft);max-width:22ch}
+
+/* quiz */
+.quiz{max-width:760px;margin:0 auto}
+.steps{display:flex;gap:6px;justify-content:center;margin-bottom:16px}
+.steps span{font-size:22px;opacity:.28;filter:grayscale(1);transition:all .3s}
+.steps span.on{opacity:1;filter:none;transform:scale(1.15)}
+.qtop{display:flex;gap:14px;align-items:center;margin-block:10px 18px}
+.qtop .spot{width:120px;flex:none;align-self:center}
+.qtitle{font-family:var(--display);font-weight:400;font-size:clamp(22px,5vw,30px);color:var(--deep);margin:0 0 16px;text-align:center;text-wrap:balance}
+.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.choice{font:inherit;cursor:pointer;background:#fff;color:var(--ink);border:3px solid var(--blush);border-radius:24px;padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;box-shadow:0 5px 0 var(--blush);transition:transform .12s}
+.choice:hover{transform:translateY(-3px) rotate(-1deg)}
+.choice .e{font-size:36px;line-height:1.1}
+.choice b{font-weight:900}
+.choice small{font-size:13px;color:var(--soft);font-weight:700}
+.choice.sel{border-color:var(--deep);background:#fff0f6;box-shadow:0 5px 0 var(--deep);transform:translateY(-3px)}
+.qnav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:22px;flex-wrap:wrap}
+.bigtime{display:flex;justify-content:center}
+.bigtime input{font-family:var(--display);font-size:clamp(34px,9vw,52px);color:var(--deep);background:#fffbef;border:4px solid #ffd27a;border-radius:28px;padding:10px 22px;text-align:center;max-width:100%}
+.plan{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.plan-step{display:flex;align-items:center;gap:12px;background:#fff;border:2px solid var(--blush);border-radius:16px;padding:8px 14px;font-weight:800}
+.plan-step .when{color:var(--soft);font-size:13px;min-width:92px}
+.plan-step.goal{border-color:var(--deep);background:#fff0f6}
+.result-cards{display:grid;gap:14px;margin-top:4px}
+
+/* routine */
+.tasks{display:flex;flex-direction:column;gap:10px}
+.task{display:flex;align-items:center;gap:14px;background:#fff;border:3px solid var(--blush);border-radius:22px;padding:12px 16px;cursor:pointer;width:100%;font:inherit;color:inherit;text-align:left;transition:transform .12s}
+.task:hover{transform:translateX(3px)}
+.task .box{width:34px;height:34px;border-radius:50%;border:3px solid var(--pink);display:grid;place-items:center;flex:none;font-size:17px;font-weight:900;background:#fff;color:#fff}
+.task .e{font-size:28px;flex:none}
+.task .tx{display:flex;flex-direction:column;min-width:0}
+.task .tl{font-weight:900}
+.task .ts{font-size:13px;color:var(--soft);font-weight:700}
+.task .open{margin-left:auto;font-weight:900;color:var(--deep);font-size:13px;flex:none}
+.task.done{background:#f2fff9;border-color:var(--mint)}
+.task.done .box{background:var(--green);border-color:var(--green)}
+.task.done .tl{text-decoration:line-through;text-decoration-color:var(--pink);text-decoration-thickness:3px}
+.panel{background:#fff7fb;border:3px dashed var(--blush);border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.breath{width:210px;height:210px;max-width:100%;border-radius:50%;margin:6px auto;background:radial-gradient(circle,#fff 0%,#ffe0ec 55%,#ffb8d3 100%);display:grid;place-items:center;transform:scale(.72);transition:transform 4s ease-in-out;box-shadow:0 0 0 12px rgba(255,138,182,.15)}
+.breath svg{width:110px}
+.breath-say{text-align:center;font-family:var(--display);font-size:22px;color:var(--deep);min-height:1.4em}
+.allset{text-align:center;align-items:center;display:flex;flex-direction:column;gap:10px;background:linear-gradient(160deg,#f2fff9,#fff7fb)}
+.allset .spot{width:150px}
+
+/* morning */
+.moods{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media (max-width:640px){.moods{grid-template-columns:repeat(2,1fr)}}
+.moods .choice .e{font-size:44px}
+.tips{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
+.tips li{background:#fff;border:2px solid var(--blush);border-radius:16px;padding:10px 14px;font-weight:700;display:flex;gap:10px}
+.boop{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:420px;margin:0 auto}
+.boop button{font:inherit;background:#f7f2ff;border:3px solid var(--lilac);border-radius:22px;padding:6px;cursor:pointer}
+.boop button.awake{border-color:#ffd27a;background:#fffbef}
+.boop svg{width:100%;height:auto}
+.stretches{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:640px){.stretches{grid-template-columns:1fr}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.cchip{font:inherit;font-weight:800;font-size:14px;cursor:pointer;background:#fff;color:var(--ink);border:2px dashed var(--pink);border-radius:999px;padding:6px 14px}
+.cchip.sel{background:var(--deep);border-style:solid;border-color:var(--deep);color:#fff}
+
+/* diary */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media (max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:#fff;border:3px solid var(--blush);border-radius:22px;padding:12px 14px;display:flex;flex-direction:column}
+.stat b{font-family:var(--display);font-weight:400;font-size:28px;color:var(--deep);line-height:1.2;font-variant-numeric:tabular-nums}
+.chart{overflow-x:auto}
+.chart svg{width:100%;min-width:420px;height:auto;display:block}
+.chart .barr{fill:var(--pink)}
+.chart .band{fill:var(--mint);opacity:.55}
+.chart .grid-l{stroke:var(--blush);stroke-width:1.5;stroke-dasharray:4 5}
+.chart .ph{fill:none;stroke:var(--blush);stroke-width:2;stroke-dasharray:5 5}
+.chart text{fill:var(--soft);font:800 12px var(--body)}
+.chart text.v{fill:var(--deep);font-size:13px}
+.nights{display:flex;flex-direction:column;gap:8px}
+.nrow{display:grid;grid-template-columns:110px 1fr auto;gap:12px;align-items:center;padding:10px 14px;border-radius:18px;background:#fff;border:2px solid var(--blush)}
+.nrow .d{font-weight:900}
+.nrow .d small{display:block;color:var(--soft);font-weight:700;font-size:12px}
+.nrow .marks{display:flex;flex-wrap:wrap;gap:6px}
+.mk{font-size:12px;font-weight:900;border-radius:999px;padding:2px 9px;background:#f5eef2;color:#a88a9b}
+.mk.y{background:#e5f8ef;color:#2f7259}
+.nrow .hrs{font-family:var(--display);color:var(--deep);font-variant-numeric:tabular-nums}
+.empty{text-align:center;padding:20px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.empty .spot{width:120px}
+
+/* wardrobe */
+.stage-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:22px}
+@media (max-width:820px){.stage-grid{grid-template-columns:1fr}}
+.rug{background:radial-gradient(ellipse 36% 9% at 50% 91%,#ffc6dc 96%,transparent 100%),radial-gradient(circle at 50% 40%,#fff 0%,#ffeaf3 70%);border-radius:26px;display:flex;justify-content:center;padding:18px 10px 22px}
+.rug .bunny{width:min(250px,70vw);height:auto}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.tab{font:inherit;font-weight:900;font-size:14px;cursor:pointer;background:#fff;color:var(--deep);border:3px solid var(--blush);border-radius:999px;padding:6px 14px}
+.tab.on{background:var(--deep);border-color:var(--deep);color:#fff}
+.closet{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px}
+.item{font:inherit;cursor:pointer;position:relative;background:#fff;border:3px solid var(--blush);border-radius:22px;padding:8px 6px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--ink);transition:transform .15s}
+.item:hover{transform:translateY(-3px) rotate(-1deg)}
+.item svg{width:74px;height:auto}
+.item b{font-size:13px;font-weight:900;text-align:center}
+.item span{font-size:12px;font-weight:700;color:var(--soft)}
+.item.wearing{border-color:var(--deep);background:#fff0f6}
+.item.wearing::after{content:"on";position:absolute;top:-10px;right:8px;background:var(--deep);color:#fff;font-size:11px;font-weight:900;border-radius:999px;padding:1px 9px}
+.item.locked{cursor:default;background:#faf6f8}
+.item.locked svg{filter:grayscale(1) opacity(.45)}
+
+/* bunny animation */
+.bunny .wig{transform-box:fill-box;transform-origin:50% 96%;animation:wig 5s ease-in-out infinite}
+.bunny .ear-r .wig{animation-delay:.25s}
+@keyframes wig{0%,84%,100%{transform:rotate(0)}88%{transform:rotate(-9deg)}93%{transform:rotate(7deg)}}
+.bunny .eyes{transform-box:fill-box;transform-origin:center;animation:blink 5.5s infinite}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}95%{transform:scaleY(.08)}}
+.bob{animation:bob 3.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.hop{animation:hop .85s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes hop{0%,100%{transform:translateY(0) scale(1,1)}25%{transform:translateY(0) scale(1.06,.9)}55%{transform:translateY(-30px) scale(.95,1.06)}80%{transform:translateY(0) scale(1.05,.94)}}
+.hop-once{animation:hop .85s ease-in-out 2;transform-origin:50% 100%}
+.breathe{animation:breathe 4s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.03,.97)}}
+.wiggle{animation:wiggle .6s ease-in-out}
+@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
+
+/* toast */
+.toast{position:fixed;z-index:30;left:calc(16px + env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));width:min(410px,calc(100vw - 32px));display:flex;align-items:flex-end;gap:6px;animation:popIn .5s cubic-bezier(.3,1.6,.5,1)}
+@media (max-width:640px){.toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
+.toast svg{width:76px;flex:none}
+.toast .msg{position:relative;background:#fff;border:3px solid var(--blush);border-radius:22px;padding:12px 34px 12px 14px;font-weight:700;box-shadow:0 6px 0 var(--blush);margin-bottom:22px;min-width:0;display:flex;flex-direction:column;gap:6px}
+.toast .msg b{display:block;font-family:var(--display);font-weight:400;color:var(--deep)}
+.toast .x{position:absolute;top:6px;right:8px;border:none;background:none;font-size:18px;cursor:pointer;color:var(--soft);font-weight:900}
+@keyframes popIn{from{transform:translateY(120%) scale(.8)}to{transform:none}}
+
+/* alarm modal */
+.alarm{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;overflow-y:auto;
+  padding:calc(16px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));
+  background:radial-gradient(circle at 50% 110%,#fff3b8 0%,#ffd1e3 45%,#ffb3d0 100%);animation:fade .3s}
+.alarm.bed{background:radial-gradient(circle at 50% 0%,#8b6bc4 0%,#4a3477 55%,var(--night1) 100%)}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.alarm-card{background:var(--card);border:4px solid #fff;border-radius:36px;padding:26px 24px;max-width:450px;width:100%;text-align:center;box-shadow:0 10px 0 rgba(185,58,108,.35),0 30px 60px rgba(60,20,60,.25);display:flex;flex-direction:column;align-items:center;gap:10px;animation:popIn .5s cubic-bezier(.3,1.6,.5,1)}
+.alarm-card svg{width:160px;height:auto}
+.alarm-card h3{font-family:var(--display);font-weight:400;font-size:clamp(24px,6vw,30px);color:var(--deep);margin:0;text-wrap:balance}
+.alarm-card .t{font-family:var(--display);font-size:44px;color:var(--ink);line-height:1}
+.alarm-card p{color:var(--soft);font-weight:700;max-width:34ch}
+.alarm-card .actions{justify-content:center}
+.alarm-card .hint{font-size:13px}
+
+/* sleep mode */
+.sleep{position:fixed;inset:0;z-index:40;overflow:hidden;color:var(--nightInk);background:linear-gradient(180deg,var(--night1) 0%,#3d2d6b 55%,var(--night2) 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;
+  padding:calc(20px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.star{position:absolute;color:#fff6c9;animation:twinkle ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)}}
+.moon{position:absolute;top:calc(36px + env(safe-area-inset-top,0px));right:max(30px,env(safe-area-inset-right,0px));width:80px;height:80px;border-radius:50%;background:#fff2b8;box-shadow:0 0 50px 10px rgba(255,240,180,.35);overflow:hidden}
+.moon::after{content:"";position:absolute;width:80px;height:80px;border-radius:50%;background:var(--night1);left:24px;top:-12px}
+.sleep .zz{position:relative;width:210px}
+.sleep .zz svg{width:100%;height:auto}
+.z{position:absolute;font-family:var(--display);color:#e9dcff;animation:zz 3.6s ease-in infinite;opacity:0}
+@keyframes zz{0%{transform:translate(0,0) scale(.6);opacity:0}20%{opacity:1}100%{transform:translate(40px,-90px) scale(1.4);opacity:0}}
+.sleep h2{font-family:var(--display);font-weight:400;font-size:clamp(26px,6vw,36px);margin:6px 0 0;color:#ffd3e6}
+.sleep .nclock{font-family:var(--display);font-size:clamp(40px,10vw,64px);line-height:1;font-variant-numeric:tabular-nums}
+.sleep p{font-weight:700;max-width:40ch;color:#e3d4ff}
+.sleep .btn.ghost{background:transparent;color:#ffd3e6;border-color:#8a6bbb;box-shadow:0 5px 0 #4a3477}
+.sleep .linkish{color:#cdb9f5}
+
+.confetti{position:fixed;z-index:60;pointer-events:none;font-size:24px;animation:burst 1.4s cubic-bezier(.2,.7,.4,1) forwards}
+@keyframes burst{0%{transform:translate(0,0) scale(.4);opacity:1}100%{transform:translate(var(--dx),var(--dy)) rotate(var(--r)) scale(1);opacity:0}}
+.foot{margin-top:26px;text-align:center;font-size:14px;font-weight:700;color:var(--soft);display:flex;flex-direction:column;align-items:center;gap:6px}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition:none!important}
+  .floaties{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="floaties" id="floaties" aria-hidden="true"></div>
+
+<div class="wrap">
+  <header>
+    <a class="logo" href="#home" data-go="home">
+      <span id="logoBunny"></span>
+      <h1>Laasya's Bedtime Burrow<small>sweet dreams &amp; sunny mornings with Bunbun</small></h1>
+    </a>
+    <span class="pill wait" id="soundPill" role="status">🔔 Tap anywhere so Bunbun can ring</span>
+  </header>
+
+  <nav class="nav" id="nav" aria-label="Pages">
+    <a href="#home" data-go="home"><span class="ico">🏡</span>Home</a>
+    <a href="#routine" data-go="routine"><span class="ico">🛁</span>Routine</a>
+    <a href="#morning" data-go="morning"><span class="ico">☀️</span>Morning</a>
+    <a href="#diary" data-go="diary"><span class="ico">📖</span>Diary</a>
+    <a href="#wardrobe" data-go="wardrobe"><span class="ico">🎀</span>Wardrobe</a>
+  </nav>
+
+  <!-- WELCOME QUIZ -->
+  <section class="view" id="v-welcome" hidden>
+    <div class="card quiz" id="quiz"></div>
+  </section>
+
+  <!-- HOME -->
+  <section class="view" id="v-home" hidden>
+    <div class="grid">
+      <section class="card hero" aria-label="Clock">
+        <div class="left">
+          <div class="date" id="date">Wednesday, November 11</div>
+          <div class="clock"><span id="hhmm">10:30</span><span class="sec" id="ss">:00</span><span class="ap" id="ap">PM</span></div>
+          <span class="chip" id="chip">💗 Bedtime soon</span>
+          <div class="bubble tail-r" id="say">Hi Laasya!</div>
+          <div class="actions" id="homeCta"></div>
+        </div>
+        <div class="spot" id="homeBunny"></div>
+      </section>
+
+      <section class="card" aria-labelledby="tonH">
+        <h2 id="tonH">🌙 Tonight</h2>
+        <div class="soft-box">
+          <span class="label">Tonight's bedtime</span>
+          <span class="big" id="tonBed">10:30 PM</span>
+          <span class="muted" id="tonLine"></span>
+        </div>
+        <div id="planBox"></div>
+        <div class="times" style="margin-top:14px">
+          <label class="time-field bed"><span class="label">Goal bedtime</span><input type="time" id="bedT"></label>
+          <label class="time-field wake"><span class="label">Wake up</span><input type="time" id="wakeT"></label>
+        </div>
+        <div class="field">
+          <label class="label" for="windSel">Wind-down reminder from Clover</label>
+          <select id="windSel">
+            <option value="0">No reminder</option><option value="15">15 minutes before bed</option><option value="30">30 minutes before bed</option><option value="45">45 minutes before bed</option><option value="60">1 hour before bed</option>
+          </select>
+        </div>
+        <div class="actions" style="margin-top:14px;gap:16px">
+          <button class="linkish" id="testWake" type="button">Preview wake-up alarm</button>
+          <button class="linkish" id="testBed" type="button">Preview bedtime alarm</button>
+          <button class="linkish" id="redoQuiz" type="button">Retake the sleep quiz</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="tiles">
+      <a class="card tile" href="#routine" data-go="routine"><span class="em">🛁</span><h3>Bedtime routine</h3><span class="muted" id="tileRoutine"></span><div class="bar"><i id="tileRoutineBar" style="width:0"></i></div><span class="go">Open routine →</span></a>
+      <a class="card tile" href="#diary" data-go="diary"><span class="em">📖</span><h3>Sleep diary</h3><span class="muted" id="tileDiary"></span><span class="go">See my nights →</span></a>
+      <a class="card tile" href="#wardrobe" data-go="wardrobe"><span class="em">🥕</span><h3>Carrots &amp; outfits</h3><span class="muted" id="tileWard"></span><div class="bar"><i id="tileWardBar" style="width:0"></i></div><span class="go">Dress up Bunbun →</span></a>
+    </div>
+
+    <section class="card" style="margin-top:22px" aria-labelledby="burrowH">
+      <h2 id="burrowH">🐰 Meet the burrow</h2>
+      <p class="muted">Earn a carrot for going to bed on time, one for waking up on time, a bonus when you do both, and extra ones for finishing your routine and morning check-in.</p>
+      <div class="friends" id="friends"></div>
+    </section>
+  </section>
+
+  <!-- ROUTINE -->
+  <section class="view" id="v-routine" hidden>
+    <div class="grid">
+      <div class="stack">
+        <section class="card">
+          <h2>🛁 Tonight's routine</h2>
+          <div class="qtop">
+            <div class="spot" id="routineBunny"></div>
+            <div class="bubble tail-l" id="routineSay">Let's get cozy, Laasya!</div>
+          </div>
+          <div class="actions" style="justify-content:space-between"><span class="label" id="routineCount">0 of 6 done</span><span class="label" id="routineBed"></span></div>
+          <div class="bar" style="margin:8px 0 16px"><i id="routineBar" style="width:0"></i></div>
+          <div class="tasks" id="tasks"></div>
+        </section>
+      </div>
+      <div class="stack">
+        <section class="card allset" id="allSet"></section>
+        <section class="card">
+          <h3>Why a routine?</h3>
+          <p class="muted">Doing the same calm steps every night tells your brain that sleep is coming, so falling asleep gets easier over time. Clover picked these steps from your quiz answers.</p>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- MORNING -->
+  <section class="view" id="v-morning" hidden>
+    <div class="card" id="morning" style="max-width:860px;margin:0 auto"></div>
+  </section>
+
+  <!-- DIARY -->
+  <section class="view" id="v-diary" hidden>
+    <div class="stack">
+      <section class="card"><h2>📖 Laasya's sleep diary</h2><div class="stats" id="stats"></div></section>
+      <section class="card"><h2>💤 Hours slept, last 7 nights</h2><div class="chart" id="chart"></div><p class="muted" style="margin-top:8px">The mint band is the 7–9 hour sweet spot.</p></section>
+      <section class="card"><h2>🌙 Night by night</h2><div class="nights" id="nights"></div></section>
+    </div>
+  </section>
+
+  <!-- WARDROBE -->
+  <section class="view" id="v-wardrobe" hidden>
+    <div class="stage-grid">
+      <section class="card">
+        <h2>🎀 Bunbun's dressing room</h2>
+        <div class="rug" id="stage"></div>
+        <div class="soft-box" style="margin-top:14px"><span class="big"><span id="wCarrots">0</span> 🥕</span><span class="muted" id="wNext"></span><div class="bar"><i id="wBar" style="width:0"></i></div></div>
+      </section>
+      <section class="card">
+        <div class="tabs" id="wTabs"></div>
+        <div class="closet" id="closet"></div>
+      </section>
+    </div>
+  </section>
+
+  <div class="foot">
+    <span>Keep this tab open with your volume up so Bunbun can ring. Everything is saved on this device.</span>
+    <button class="linkish" id="resetBtn" type="button">Start fresh</button>
+  </div>
+</div>
+
+<div id="toastHost"></div>
+<div id="alarmHost"></div>
+<div id="sleepHost"></div>
+
+<script>
+(() => {
+const NAME = 'Laasya', KEY = 'laasya-burrow-v1';
+/* ---------- state ---------- */
+const fresh = () => ({ onboarded:false, quiz:{}, bed:'23:00', wake:'07:30', wind:30, plan:null, carrots:0, streak:0, best:0, history:{},
+  outfit:{ head:'bow', face:'none', neck:'none', fur:'white' }, seen:[], sleeping:false, fired:{}, snoozeUntil:null, snoozes:0, bedRemind:null, bedAward:false,
+  routine:{}, extras:[], notes:{} });
+let S = load();
+function load(){ try{ const r = localStorage.getItem(KEY); if (r){ const o = JSON.parse(r), f = fresh(); return Object.assign(f, o, { outfit:Object.assign(f.outfit, o.outfit || {}) }); } }catch(e){} return fresh(); }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const pad = n => String(n).padStart(2,'0');
+const hm = s => { const [h,m] = s.split(':').map(Number); return h*60 + m; };
+const toHM = m => { m = ((m % 1440) + 1440) % 1440; return `${pad(Math.floor(m/60))}:${pad(m%60)}`; };
+const fmt = min => { min = ((Math.round(min) % 1440) + 1440) % 1440; let h = Math.floor(min/60), m = min % 60; const ap = h < 12 ? 'AM' : 'PM'; h = h % 12 || 12; return `${h}:${pad(m)} ${ap}`; };
+const dur = min => { min = Math.max(0, Math.round(min)); const h = Math.floor(min/60), m = min % 60; return h ? `${h}h ${m}m` : `${m}m`; };
+const dkey = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const nightKey = (d = new Date()) => { const x = new Date(d); if (x.getHours() < 14) x.setDate(x.getDate()-1); return dkey(x); };
+const lastNightKey = () => nightKey(new Date(Date.now() - 14*3600e3));
+const daysBetween = (a, b) => Math.round((Date.parse(b) - Date.parse(a)) / 864e5);
+const nowMin = (d = new Date()) => d.getHours()*60 + d.getMinutes() + d.getSeconds()/60;
+const until = (t, d) => ((t - nowMin(d)) % 1440 + 1440) % 1440;
+const r15 = m => (((Math.round(m/15)*15) % 1440) + 1440) % 1440;
+const sv = m => ((m - 1080) % 1440 + 1440) % 1440;           // minutes since 6 PM
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const rec = k => (S.history[k] = S.history[k] || {});
+
+/* ---------- bunny drawing ---------- */
+const FURS = {
+  white:    { fur:'#ffffff', inner:'#ffbcd4', line:'#efa7c5', cheek:'#ff9cc0' },
+  pink:     { fur:'#ffdbe9', inner:'#ff9fc4', line:'#ec93b7', cheek:'#ff78aa' },
+  lavender: { fur:'#efe6ff', inner:'#d8c6ff', line:'#bea9ee', cheek:'#ffb3d1' },
+  cream:    { fur:'#fff1df', inner:'#ffc4b0', line:'#e7bf98', cheek:'#ffa99a' },
+  sunny:    { fur:'#fff2c9', inner:'#ffc9a8', line:'#ecc27c', cheek:'#ffab9e' },
+  grey:     { fur:'#ece5ee', inner:'#ffc2d6', line:'#c6b4ca', cheek:'#ffa9c7' },
+};
+function flower(x, y, r, petal = '#fff', mid = '#ffd25e'){
+  let p = '';
+  for (let i = 0; i < 5; i++){ const a = i*72*Math.PI/180; p += `<circle cx="${(x+Math.cos(a)*r).toFixed(1)}" cy="${(y+Math.sin(a)*r).toFixed(1)}" r="${r*0.85}" fill="${petal}" stroke="#f3c6d8" stroke-width="1"/>`; }
+  return p + `<circle cx="${x}" cy="${y}" r="${r*0.7}" fill="${mid}"/>`;
+}
+function headAcc(id){
+  switch(id){
+    case 'bow': return `<g transform="translate(140 82) rotate(18)"><path d="M0 0 L-22 -13 Q-27 0 -22 13 Z" fill="#ff6fa3" stroke="#e0508a" stroke-width="2" stroke-linejoin="round"/><path d="M0 0 L22 -13 Q27 0 22 13 Z" fill="#ff6fa3" stroke="#e0508a" stroke-width="2" stroke-linejoin="round"/><circle r="6.5" fill="#ff4f8f"/></g>`;
+    case 'daisy': { let s = ''; for (let i = 0; i < 6; i++){ const a = (208 + i*25)*Math.PI/180; s += flower(+(100+70*Math.cos(a)).toFixed(1), +(132+60*Math.sin(a)).toFixed(1), 6, i%2 ? '#fff' : '#ffe0ec'); } return s; }
+    case 'strawb': return `<g transform="translate(100 78)"><path d="M-34 8 Q-34 -30 0 -32 Q34 -30 34 8 Q0 16 -34 8Z" fill="#ff5c7a" stroke="#d93b5e" stroke-width="2.5"/>${[[-18,-12],[-4,-20],[12,-14],[-20,2],[0,-4],[20,0],[-8,6],[10,8]].map(([x,y]) => `<ellipse cx="${x}" cy="${y}" rx="2.2" ry="3.2" fill="#ffe28a"/>`).join('')}<path d="M-18 -28 L-6 -34 L0 -44 L6 -34 L18 -28 L6 -27 L0 -22 L-6 -27Z" fill="#6fcf8f" stroke="#43a56a" stroke-width="2" stroke-linejoin="round"/></g>`;
+    case 'crown': return `<g transform="translate(100 72)"><path d="M-26 10 L-29 -18 L-13 -5 L0 -26 L13 -5 L29 -18 L26 10Z" fill="#ffd36e" stroke="#e1a43a" stroke-width="2.5" stroke-linejoin="round"/><circle cx="0" cy="-26" r="4.5" fill="#ff8ab6"/><circle cx="-29" cy="-18" r="3.5" fill="#c9b6ff"/><circle cx="29" cy="-18" r="3.5" fill="#c9b6ff"/><circle cx="0" cy="2" r="4" fill="#ff6fa3"/></g>`;
+    case 'flower': return flower(140, 84, 7, '#fff', '#c9b6ff');
+    case 'sun': return `<g transform="translate(141 84)">${Array.from({length:8}, (_,i) => `<path d="M0 -10 L0 -15" stroke="#ffb534" stroke-width="3" stroke-linecap="round" transform="rotate(${i*45})"/>`).join('')}<circle r="8" fill="#ffcb47"/></g>`;
+    default: return '';
+  }
+}
+function faceAcc(id){
+  if (id === 'glasses'){ const h = 'M0 -4 C0 -12 -13 -13 -13 -3 C-13 4 -5 9 0 14 C5 9 13 4 13 -3 C13 -13 0 -12 0 -4Z'; return `<g fill="rgba(255,138,182,.28)" stroke="#e0508a" stroke-width="3.5" stroke-linejoin="round"><path transform="translate(74 126) scale(1.25)" d="${h}"/><path transform="translate(126 126) scale(1.25)" d="${h}"/></g><path d="M89 124 Q100 116 111 124" fill="none" stroke="#e0508a" stroke-width="3.5" stroke-linecap="round"/>`; }
+  if (id === 'star') return `<path transform="translate(152 136)" d="M0 -11 L3.2 -3.4 L11 -3.4 L4.8 1.6 L7 9.6 L0 4.8 L-7 9.6 L-4.8 1.6 L-11 -3.4 L-3.2 -3.4Z" fill="#ffd36e" stroke="#e1a43a" stroke-width="1.8" stroke-linejoin="round"/><path d="M48 136 l0 8 M44 140 l8 0" stroke="#ff8ab6" stroke-width="2.5" stroke-linecap="round"/>`;
+  return '';
+}
+function neckAcc(id){
+  if (id === 'scarf') return `<path d="M42 174 Q100 204 158 174 L158 190 Q100 220 42 190Z" fill="#c9b6ff" stroke="#9f86e8" stroke-width="2.5"/><path d="M60 182 l0 16 M80 189 l0 16 M100 191 l0 16 M120 189 l0 16 M140 182 l0 16" stroke="#fff" stroke-width="4" opacity=".7"/><path d="M124 194 l8 34 l17 -5 l-8 -33z" fill="#b8a2ff" stroke="#9f86e8" stroke-width="2.5" stroke-linejoin="round"/>`;
+  if (id === 'pearls'){ let s = ''; for (let i = 0; i <= 10; i++){ const t = -1 + i*0.2; s += `<circle cx="${(100+50*t).toFixed(1)}" cy="${(180+12*(1-t*t)).toFixed(1)}" r="5" fill="#fffaf2" stroke="#e8cfc0" stroke-width="1.5"/>`; } return s + `<circle cx="100" cy="199" r="6" fill="#ffb3d1" stroke="#e0508a" stroke-width="1.5"/>`; }
+  return '';
+}
+function bunny({ fur = 'white', head = 'none', face = 'none', neck = 'none', expr = 'open', droop = false, cls = '' } = {}){
+  const c = FURS[fur] || FURS.white;
+  const eyes = {
+    open: `<g class="eyes"><ellipse cx="74" cy="128" rx="7.5" ry="9" fill="#3b2433"/><ellipse cx="126" cy="128" rx="7.5" ry="9" fill="#3b2433"/><circle cx="77" cy="124" r="2.8" fill="#fff"/><circle cx="129" cy="124" r="2.8" fill="#fff"/></g>`,
+    sleep: `<g fill="none" stroke="#3b2433" stroke-width="4" stroke-linecap="round"><path d="M64 128 q10 8 20 0"/><path d="M116 128 q10 8 20 0"/></g>`,
+    happy: `<g fill="none" stroke="#3b2433" stroke-width="4" stroke-linecap="round"><path d="M64 132 q10 -12 20 0"/><path d="M116 132 q10 -12 20 0"/></g>`,
+  }[expr];
+  const lRot = droop === 'both' ? -62 : -13, rRot = droop ? 62 : 13;
+  const ear = (x, rot, side) => `<g class="ear ear-${side}" transform="rotate(${rot} ${x} 100)"><g class="wig"><ellipse cx="${x}" cy="52" rx="20" ry="49" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/><ellipse cx="${x}" cy="57" rx="10" ry="35" fill="${c.inner}"/></g></g>`;
+  return `<svg class="bunny ${cls}" viewBox="0 0 200 232" aria-hidden="true">
+    ${ear(72, lRot, 'l')}${ear(128, rRot, 'r')}
+    <ellipse cx="100" cy="198" rx="58" ry="31" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+    <ellipse cx="100" cy="132" rx="72" ry="62" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+    <ellipse cx="56" cy="150" rx="12" ry="7" fill="${c.cheek}" opacity=".7"/><ellipse cx="144" cy="150" rx="12" ry="7" fill="${c.cheek}" opacity=".7"/>
+    ${eyes}
+    <path d="M94.5 142 q5.5 -4 11 0 q-5.5 7 -11 0z" fill="#ff8fb0"/>
+    <path d="M92 151 q4 5 8 0 q4 5 8 0" fill="none" stroke="#3b2433" stroke-width="2.6" stroke-linecap="round"/>
+    <ellipse cx="78" cy="206" rx="13" ry="9" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/><ellipse cx="122" cy="206" rx="13" ry="9" fill="${c.fur}" stroke="${c.line}" stroke-width="3"/>
+    ${neckAcc(neck)}${faceAcc(face)}${headAcc(head)}
+  </svg>`;
+}
+const bunbun = (o = {}) => bunny(Object.assign({}, S.outfit, o));
+const FRIENDS = {
+  Bunbun: o => bunbun(o),
+  Clover: o => bunny(Object.assign({ fur:'lavender', head:'flower' }, o)),
+  Sunny:  o => bunny(Object.assign({ fur:'sunny', head:'sun' }, o)),
+  Pip:    o => bunny(Object.assign({ fur:'grey', droop:true }, o)),
+};
+const FRIEND_JOBS = [['Bunbun','Your sleep buddy. Rings your alarms.'],['Clover','Wind-down reminders and your bedtime routine.'],['Sunny','Gentle wake-ups and morning check-ins.'],['Pip','Tiny cheerleader. Celebrates your wins.']];
+
+/* ---------- wardrobe items ---------- */
+const ITEMS = [
+  { slot:'head', id:'none',    name:'No hat',          cost:0 },
+  { slot:'head', id:'bow',     name:'Pink bow',        cost:0 },
+  { slot:'head', id:'daisy',   name:'Daisy crown',     cost:3 },
+  { slot:'head', id:'strawb',  name:'Strawberry hat',  cost:10 },
+  { slot:'head', id:'crown',   name:'Tiny crown',      cost:24 },
+  { slot:'face', id:'none',    name:'Bare face',       cost:0 },
+  { slot:'face', id:'glasses', name:'Heart glasses',   cost:6 },
+  { slot:'face', id:'star',    name:'Star sticker',    cost:14 },
+  { slot:'neck', id:'none',    name:'Nothing',         cost:0 },
+  { slot:'neck', id:'scarf',   name:'Cozy scarf',      cost:8 },
+  { slot:'neck', id:'pearls',  name:'Pearl necklace',  cost:18 },
+  { slot:'fur',  id:'white',   name:'Snow white',      cost:0 },
+  { slot:'fur',  id:'pink',    name:'Strawberry milk', cost:5 },
+  { slot:'fur',  id:'lavender',name:'Lavender',        cost:12 },
+  { slot:'fur',  id:'cream',   name:'Vanilla cream',   cost:20 },
+];
+const SLOTS = [['head','👒 Hats'],['face','🕶️ Face'],['neck','🧣 Neck'],['fur','🎨 Fur']];
+
+/* ---------- audio ---------- */
+let actx = null, unlocked = false, loop = null, loopVol = .06;
+function ensureAudio(){ try{ if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === 'suspended') actx.resume(); }catch(e){} }
+function tone(freq, t, len, vol){
+  [[1,'sine',1],[2,'triangle',.25]].forEach(([mult, type, amt]) => {
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.type = type; o.frequency.value = freq*mult;
+    g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(Math.max(.0002, vol*amt), t + .015); g.gain.exponentialRampToValueAtTime(.0001, t + len);
+    o.connect(g).connect(actx.destination); o.start(t); o.stop(t + len + .05);
+  });
+}
+function chirp(t, vol){
+  const o = actx.createOscillator(), g = actx.createGain(); o.type = 'sine';
+  o.frequency.setValueAtTime(2500, t); o.frequency.exponentialRampToValueAtTime(3700, t + .06); o.frequency.exponentialRampToValueAtTime(2900, t + .12);
+  g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(vol*.5, t + .01); g.gain.exponentialRampToValueAtTime(.0001, t + .13);
+  o.connect(g).connect(actx.destination); o.start(t); o.stop(t + .16);
+}
+const N = { G4:392, A4:440, C5:523.25, D5:587.33, E5:659.25, F5:698.46, G5:783.99, A5:880, B5:987.77, C6:1046.5, E6:1318.5 };
+const TUNES = {
+  musicbox: { len:1, n:[['C5',0],['E5',.22],['G5',.44],['C6',.66],['G5',.95],['E6',1.2],['C6',1.5],['G5',1.9]] },
+  bouncy:   { len:.45, n:[['C5',0],['E5',.12],['G5',.24],['C6',.36],['G5',.55],['C6',.67],['E6',.79],['C6',1.05],['E6',1.17],['G5',1.4],['C6',1.6]] },
+  bed:      { len:1.4, n:[['G5',0],['E5',.45],['C5',.9],['E5',1.35],['D5',1.8],['G4',2.4],['C5',3.0]] },
+  chime:    { len:1, n:[['E5',0],['A5',.18],['C6',.36]] },
+  ding:     { len:.6, n:[['G5',0],['C6',.1]] },
+};
+function play(name, vol = .12){
+  ensureAudio(); if (!actx) return; const t0 = actx.currentTime + .05;
+  if (name === 'birds'){ [0,.16,.32,.9,1.05,1.6,1.74,1.88,2.3].forEach(t => chirp(t0 + t, vol)); return; }
+  const T = TUNES[name]; T.n.forEach(([n, t]) => tone(N[n], t0 + t, T.len, vol));
+}
+const wakeTune = () => S.quiz.tune || 'musicbox';
+function startLoop(){ stopLoop(); loopVol = .06; play(wakeTune(), loopVol); loop = setInterval(() => { loopVol = Math.min(.32, loopVol + .015); play(wakeTune(), loopVol); }, 3000); }
+function stopLoop(){ if (loop) clearInterval(loop); loop = null; }
+function unlock(){
+  ensureAudio(); if (unlocked) return; unlocked = true;
+  const p = $('#soundPill'); p.className = 'pill on'; p.textContent = '🔔 Alarms on · keep this tab open';
+  if (current && current.kind === 'wake' && !loop) startLoop();
+}
+document.addEventListener('pointerdown', unlock); document.addEventListener('keydown', unlock);
+
+let wl = null;
+async function lockScreen(){ try{ if ('wakeLock' in navigator) wl = await navigator.wakeLock.request('screen'); }catch(e){} }
+function releaseLock(){ try{ wl && wl.release(); }catch(e){} wl = null; }
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && S.sleeping) lockScreen(); });
+
+/* ---------- confetti + toast ---------- */
+function burst(x = innerWidth/2, y = innerHeight/2, set = ['💗','🥕','✨','🌸','🎀']){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  for (let i = 0; i < 22; i++){
+    const s = document.createElement('span'); s.className = 'confetti'; s.textContent = set[i % set.length];
+    const a = Math.random()*Math.PI*2, d = 90 + Math.random()*170;
+    s.style.left = x + 'px'; s.style.top = y + 'px';
+    s.style.setProperty('--dx', Math.cos(a)*d + 'px'); s.style.setProperty('--dy', Math.sin(a)*d - 60 + 'px'); s.style.setProperty('--r', (Math.random()*360 - 180) + 'deg');
+    document.body.appendChild(s); setTimeout(() => s.remove(), 1500);
+  }
+}
+const burstAt = el => { const r = el.getBoundingClientRect(); burst(r.left + r.width/2, r.top + r.height/2); };
+let toastTimer = null;
+function toast(friend, title, text, ms = 9000, action = null){
+  const svg = (FRIENDS[friend] || FRIENDS.Bunbun)({ expr:'happy', cls:'hop-once' });
+  $('#toastHost').innerHTML = `<div class="toast" role="status">${svg}<div class="msg"><b>${esc(title)}</b><span>${esc(text)}</span>${action ? `<button class="btn small" type="button" id="toastAct">${esc(action.label)}</button>` : ''}<button class="x" type="button" aria-label="Close">×</button></div></div>`;
+  $('#toastHost .x').onclick = () => { $('#toastHost').innerHTML = ''; };
+  if (action) $('#toastAct').onclick = () => { $('#toastHost').innerHTML = ''; action.fn(); };
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { $('#toastHost').innerHTML = ''; }, ms);
+}
+function addCarrots(n, why){ if (n <= 0) return; S.carrots += n; save(); checkUnlocks(); }
+
+/* ---------- plan ---------- */
+function planInfo(){
+  if (!S.plan) return null;
+  const tgt = sv(hm(S.bed)), from = sv(S.plan.from);
+  if (from <= tgt) return null;
+  const n = Math.max(0, daysBetween(S.plan.start, nightKey()));
+  const total = Math.ceil((from - tgt) / 15);
+  const steps = Math.min(total, Math.floor(n / 2));
+  const cur = Math.max(tgt, from - steps*15);
+  return { tonight:(cur + 1080) % 1440, step:steps, total, done:cur === tgt, nightsLeft: Math.max(0, total*2 - n) };
+}
+const tonightBed = () => { const p = planInfo(); return p ? p.tonight : hm(S.bed); };
+const maxSnooze = () => S.quiz.type === 'snooze' ? 2 : 3;
+
+/* ---------- alarm modal ---------- */
+let current = null;
+function showAlarm(kind, preview = false){
+  if (current) return;
+  current = { kind, preview };
+  const host = $('#alarmHost');
+  if (kind === 'wake'){
+    const left = Math.max(0, maxSnooze() - S.snoozes);
+    host.innerHTML = `<div class="alarm" role="alertdialog" aria-labelledby="alT"><div class="alarm-card">
+      ${FRIENDS.Sunny({ expr:'happy', cls:'hop' })}
+      <h3 id="alT">Good morning, ${NAME}! ☀️</h3>
+      <div class="t">${fmt(nowMin())}</div>
+      <p>Sunny brought the sunshine. Stretch your ears, drink some water, and let's start the day!</p>
+      <div class="actions"><button class="btn" id="upBtn" type="button">I'm up! 🌷</button>${left > 0 || preview ? `<button class="btn ghost" id="snzBtn" type="button">Snooze 5 min 😴</button>` : ''}</div>
+      <p class="hint">${preview ? 'This is a preview, no carrots involved.' : left > 0 ? `${left} snooze${left === 1 ? '' : 's'} left · getting up earns a carrot 🥕${S.quiz.type === 'snooze' && S.snoozes === 0 ? ' · zero snoozes earns a bonus!' : ''}` : 'No snoozes left. You can do it 💪'}</p>
+    </div></div>`;
+    $('#upBtn').onclick = () => wakeUp();
+    if ($('#snzBtn')) $('#snzBtn').onclick = () => snooze();
+    if (unlocked) startLoop();
+    $('#upBtn').focus();
+  } else {
+    const done = routineDone();
+    host.innerHTML = `<div class="alarm bed" role="alertdialog" aria-labelledby="alT"><div class="alarm-card">
+      ${bunbun({ expr:'sleep', droop:'both', cls:'breathe' })}
+      <h3 id="alT">It's bedtime, ${NAME} 🌙</h3>
+      <div class="t">${fmt(nowMin())}</div>
+      <p>${done ? 'Your routine is all done. Time to snuggle in so you wake up at ' + fmt(hm(S.wake)) + ' feeling fluffy.' : 'Bunbun already has pajamas on. Let\'s finish your routine and tuck in together.'}</p>
+      <div class="actions">${done ? '' : '<button class="btn green" id="toRoutine" type="button">Open my routine 🛁</button>'}<button class="btn" id="tuckBtn" type="button">Tuck me in 💤</button><button class="btn ghost" id="laterBtn" type="button">10 more minutes</button></div>
+      ${preview ? '<p class="hint">This is a preview, no carrots involved.</p>' : ''}
+    </div></div>`;
+    if ($('#toRoutine')) $('#toRoutine').onclick = () => { closeAlarm(); go('routine'); };
+    $('#tuckBtn').onclick = () => { closeAlarm(); if (!preview) goToBed(); else toast('Pip','Preview done!','That is how bedtime will look tonight 🌙'); };
+    $('#laterBtn').onclick = () => { closeAlarm(); if (!preview){ S.bedRemind = Date.now() + 10*60000; save(); } toast('Clover','Okay, 10 more minutes','Finish up your routine and get cozy. I\'ll check back soon 🪥', 9000, { label:'Open routine', fn:() => go('routine') }); };
+    play('bed', .14);
+    $('#tuckBtn').focus();
+  }
+}
+function closeAlarm(){ stopLoop(); $('#alarmHost').innerHTML = ''; current = null; }
+function snooze(){
+  const pv = current && current.preview; closeAlarm();
+  if (pv){ toast('Pip','Snooze preview','Real snoozes come back in 5 minutes ⏰'); return; }
+  S.snoozes++; S.snoozeUntil = Date.now() + 5*60000; save();
+  toast('Pip','5 more minutes…', 'I\'ll hop back in at ' + fmt(nowMin() + 5) + ' ⏰');
+}
+
+/* ---------- sleep + wake ---------- */
+function goToBed(){
+  const diff = ((nowMin() - tonightBed() + 1440 + 720) % 1440) - 720;
+  const onTime = diff <= 30 && diff >= -180;
+  const k = nightKey(), r = rec(k);
+  S.bedAward = onTime && !r.bed;
+  r.bed = r.bed || onTime; r.bedAt = Date.now(); delete r.wakeAt;
+  S.sleeping = true; S.bedRemind = null; S.snoozes = 0; save();
+  showSleep(onTime ? (S.bedAward ? '+1 🥕 for going to bed on time!' : 'Right on time 💕') : "A little late tonight, and that's okay. Tomorrow is a new day 💕");
+  if (S.bedAward) addCarrots(1);
+  lockScreen(); renderAll();
+}
+function cancelSleep(){
+  const r = rec(nightKey());
+  if (S.bedAward){ S.carrots = Math.max(0, S.carrots - 1); r.bed = false; }
+  delete r.bedAt; S.sleeping = false; S.bedAward = false; save(); hideSleep(); releaseLock(); renderAll();
+  toast('Clover','No problem!','Tap "Tuck me in" whenever you are ready 🌙', 7000, { label:'Open routine', fn:() => go('routine') });
+}
+function wakeUp(){
+  const pv = current && current.preview; closeAlarm();
+  if (pv){ burst(); toast('Sunny','Preview done!','That is the sound and look of your morning alarm ☀️'); return; }
+  finishNight(true);
+}
+function finishNight(onTime){
+  const k = nightKey(), r = rec(k);
+  let gained = 0, msg = '';
+  if (onTime && !r.wake) gained++;
+  r.wake = r.wake || onTime;
+  if (r.bedAt && !r.wakeAt) r.wakeAt = Date.now();
+  if (S.quiz.type === 'snooze' && onTime && S.snoozes === 0 && !r.noSnooze){ r.noSnooze = true; gained++; msg = 'Zero snoozes, Snooze Queen! Bonus carrot 👑 '; }
+  if (r.bed && r.wake && !r.counted){ r.counted = true; S.streak++; S.best = Math.max(S.best, S.streak); gained++; msg += `Bed + wake on time: a ${S.streak}-night streak 💗`; }
+  else if (!(r.bed && r.wake)){ if (S.streak > 0) msg += 'Streak paused, and that is okay. Tonight is a fresh start 🌸'; S.streak = 0; }
+  S.sleeping = false; S.snoozes = 0; S.snoozeUntil = null; S.fired.wake = dkey(new Date());
+  save(); hideSleep(); releaseLock();
+  if (gained) burst();
+  addCarrots(gained);
+  morningState = null; go('morning');
+  toast('Sunny', gained ? `+${gained} 🥕 Good morning!` : 'Good morning!', msg || (onTime ? 'You got up on time. Proud of you ☀️' : 'You made it up. Have a lovely day 🌷'));
+}
+function checkUnlocks(){
+  ITEMS.forEach(it => {
+    const key = it.slot + ':' + it.id;
+    if (it.cost > 0 && S.carrots >= it.cost && !S.seen.includes(key)){
+      S.seen.push(key); save();
+      setTimeout(() => { burst(innerWidth/2, innerHeight/3, ['🎀','🥕','💗','✨']); toast('Pip','New outfit unlocked!', `Bunbun can wear the ${it.name} now 🎀`, 12000, { label:'Try it on', fn:() => { wTab = it.slot; go('wardrobe'); } }); }, 2400);
+    }
+  });
+  renderAll();
+}
+
+/* ---------- sleep overlay ---------- */
+function showSleep(note){
+  let stars = '';
+  for (let i = 0; i < 28; i++) stars += `<span class="star" style="left:${(Math.random()*96).toFixed(1)}%;top:${(Math.random()*70).toFixed(1)}%;font-size:${8 + Math.random()*12 | 0}px;animation-duration:${2 + Math.random()*3}s;animation-delay:${(Math.random()*3).toFixed(1)}s">✦</span>`;
+  $('#sleepHost').innerHTML = `<div class="sleep" role="dialog" aria-label="Sleep mode">${stars}<div class="moon"></div>
+    <div class="zz">${bunbun({ expr:'sleep', droop:'both', cls:'breathe' })}
+      <span class="z" style="right:30px;top:20px;font-size:22px">z</span><span class="z" style="right:20px;top:10px;font-size:30px;animation-delay:1.2s">z</span><span class="z" style="right:40px;top:0;font-size:38px;animation-delay:2.4s">Z</span></div>
+    <h2>Sweet dreams, ${NAME}</h2>
+    <div class="nclock" id="nClock">--:--</div>
+    <p id="nNote"></p>
+    <p style="font-size:14px">${esc(note || '')}</p>
+    <p style="font-size:13px;opacity:.85">Keep this tab open with your volume up so Sunny can wake you.</p>
+    <div class="actions" style="justify-content:center"><button class="btn ghost" id="awakeBtn" type="button">I'm awake ☀️</button></div>
+    <button class="linkish" id="notYet" type="button">Oops, not sleeping yet</button>
+  </div>`;
+  $('#awakeBtn').onclick = () => {
+    const toWake = until(hm(S.wake));
+    if (toWake <= 60 || toWake >= 1440 - 120) finishNight(true);
+    else { S.sleeping = false; save(); hideSleep(); releaseLock(); renderAll(); toast('Bunbun','Up already?','If you can, try to rest a little more. Sunny will ring at ' + fmt(hm(S.wake)) + ' 💕'); }
+  };
+  $('#notYet').onclick = cancelSleep;
+  tickSleep();
+}
+function hideSleep(){ $('#sleepHost').innerHTML = ''; }
+function tickSleep(){
+  const c = $('#nClock'); if (!c) return;
+  const now = new Date(); c.textContent = fmt(nowMin(now));
+  $('#nNote').textContent = `Sunny will wake you at ${fmt(hm(S.wake))}, that's ${dur(until(hm(S.wake), now))} from now.`;
+}
+
+/* ---------- scheduler ---------- */
+function check(now){
+  if (!S.onboarded) return;
+  const nm = now.getHours()*60 + now.getMinutes(), today = dkey(now);
+  const within = t => ((nm - t + 1440) % 1440) <= 2;
+  const bed = tonightBed(), windT = (bed - S.wind + 1440) % 1440;
+  if (S.wind > 0 && within(windT) && S.fired.wind !== today && !S.sleeping){
+    S.fired.wind = today; save(); play('chime', .14);
+    toast('Clover', `${S.wind} minutes till bedtime 🛁`, `Time to wind down, ${NAME}. Lights low, phone down soon, and let's do your routine.`, 60000, { label:'Start my routine', fn:() => go('routine') });
+  }
+  if (within(bed) && S.fired.bed !== today && !S.sleeping){ S.fired.bed = today; save(); showAlarm('bed'); }
+  if (S.bedRemind && now.getTime() >= S.bedRemind){ S.bedRemind = null; save(); if (!S.sleeping) showAlarm('bed'); }
+  if (within(hm(S.wake)) && S.fired.wake !== today){ S.fired.wake = today; S.snoozes = 0; save(); showAlarm('wake'); }
+  if (S.snoozeUntil && now.getTime() >= S.snoozeUntil){ S.snoozeUntil = null; save(); showAlarm('wake'); }
+}
+
+/* ================= ROUTER ================= */
+const VIEWS = ['welcome','home','routine','morning','diary','wardrobe'];
+let view = '';
+function go(v){ if (location.hash === '#' + v) route(); else location.hash = v; }
+function route(){
+  let v = location.hash.slice(1);
+  if (!VIEWS.includes(v)) v = S.onboarded ? 'home' : 'welcome';
+  if (!S.onboarded) v = 'welcome';
+  const changed = v !== view; view = v;
+  VIEWS.forEach(x => { const el = $('#v-' + x); el.hidden = x !== v; if (x === v && changed){ el.classList.remove('view'); void el.offsetWidth; el.classList.add('view'); } });
+  $('#nav').hidden = !S.onboarded;
+  $$('#nav a').forEach(a => a.classList.toggle('on', a.dataset.go === v));
+  if (changed){ breathRun++; if (v === 'morning') morningState = null; window.scrollTo(0, 0); }
+  renderView();
+}
+window.addEventListener('hashchange', route);
+document.addEventListener('click', e => {
+  const g = e.target.closest('[data-go]'); if (g){ e.preventDefault(); go(g.dataset.go); return; }
+  const b = e.target.closest('[data-bed]'); if (b){ unlock(); goToBed(); }
+});
+function renderView(){ ({ welcome:renderQuiz, home:renderHome, routine:renderRoutine, morning:renderMorning, diary:renderDiary, wardrobe:renderWardrobe })[view](); }
+function renderAll(){ $('#logoBunny').innerHTML = bunbun({ expr:'happy' }); lastPhase = ''; if (view) renderView(); }
+
+/* ================= WELCOME QUIZ ================= */
+const Q = [
+  { id:'usual', type:'choice', who:'Bunbun', q:'When do you usually fall asleep right now?', say:`Hi ${NAME}! I'm Bunbun, your sleep buddy 🐰 Let's build your perfect sleep plan. Be honest, no judging!`,
+    opts:[{v:1305,e:'🌆',l:'Before 10 PM',r:'Wow, an early sleeper! Love that.'},{v:1350,e:'🌙',l:'10–11 PM',r:'Pretty cozy timing already!'},{v:1410,e:'🌌',l:'11 PM–midnight',r:'Okay! We can work with that.'},{v:30,e:'🦉',l:'Midnight–1 AM',r:'Ooh, late! We\'ll hop earlier together.'},{v:90,e:'🌃',l:'After 1 AM',r:'Eek! No worries, we\'ll go step by step.'}] },
+  { id:'wake', type:'time', who:'Sunny', q:'What time do you need to wake up?', say:'Hi, I\'m Sunny ☀️ Classes, work, or just a nice morning? Pick the time you want to be up.' },
+  { id:'type', type:'choice', who:'Bunbun', q:"What's your sleep personality?", say:'Every bunny is different. Which one sounds most like you?',
+    opts:[{v:'bird',e:'🐣',l:'Early bird',s:'I get sleepy early',r:'An early bird! Mornings are your thing.'},{v:'owl',e:'🦉',l:'Night owl',s:'I come alive at night',r:'A night owl! I\'ll move your bedtime earlier little by little.'},{v:'snooze',e:'😴',l:'Snooze queen',s:'Snooze is my best friend',r:'Snooze queen! Sunny has special rules for you 👑'},{v:'restless',e:'🌀',l:'Restless bunny',s:'I lie awake thinking',r:'Restless bunny! Clover will add calming steps to your routine.'}] },
+  { id:'keeps', type:'multi', who:'Clover', q:'What usually keeps you up?', say:'Hi, I\'m Clover 🌸 Pick as many as you like, and I\'ll build your bedtime routine around them.',
+    opts:[{v:'phone',e:'📱',l:'Scrolling my phone'},{v:'shows',e:'📺',l:'Shows & videos'},{v:'study',e:'📚',l:'Homework & studying'},{v:'thoughts',e:'💭',l:'Racing thoughts'},{v:'notsleepy',e:'⚡',l:'Just not sleepy'},{v:'nothing',e:'🌸',l:'Nothing really!'}] },
+  { id:'tune', type:'choice', who:'Sunny', q:'How should Sunny wake you up?', say:'Tap one to hear it! Pick the sound you want in the morning.', listen:true,
+    opts:[{v:'musicbox',e:'🎶',l:'Soft music box',r:'Soft and sweet, like a little jewelry box 🎶'},{v:'bouncy',e:'🎉',l:'Bright & bouncy',r:'Bouncy! Hard to sleep through that one 🎉'},{v:'birds',e:'🐦',l:'Morning birdies',r:'Tweet tweet! Like waking up in a garden 🐦'}] },
+  { id:'wind', type:'choice', who:'Clover', q:'When should I start your wind-down?', say:'I\'ll pop up with a little chime so you have time for your routine before bed.',
+    opts:[{v:15,e:'🫧',l:'15 min before'},{v:30,e:'🛁',l:'30 min before'},{v:45,e:'🕯️',l:'45 min before'},{v:60,e:'📖',l:'1 hour before'}] },
+];
+let qi = 0, A = {}, qSay = '';
+function computePlan(a){
+  const wake = hm(a.wake || '07:30');
+  let target = r15(wake - 510);                       // 8.5 h before wake
+  const usual = a.usual != null ? a.usual : target;
+  const gap = sv(usual) - sv(target);                  // >0 means she falls asleep later than target
+  if (gap < 0 && a.type === 'bird') target = sv(usual) < sv(r15(wake - 570)) ? r15(wake - 570) : r15(usual);
+  const usePlan = gap > 30 || (a.type === 'owl' && gap > 0);
+  let steps = [];
+  if (usePlan){ const total = Math.ceil(gap/15); for (let i = 0; i <= total; i++) steps.push({ night:i*2, t:(Math.max(sv(target), sv(usual) - i*15) + 1080) % 1440 }); }
+  return { target, usePlan, gap, steps, from:usual };
+}
+function renderQuiz(){
+  const box = $('#quiz');
+  const steps = Q.map((_, i) => `<span class="${i <= qi ? 'on' : ''}">🥕</span>`).join('') + `<span class="${qi >= Q.length ? 'on' : ''}">🏡</span>`;
+  if (qi >= Q.length) return renderQuizResult(box, steps);
+  const q = Q[qi], a = A[q.id];
+  const say = qSay || q.say;
+  let body = '';
+  if (q.type === 'time'){
+    body = `<div class="bigtime"><input type="time" id="qTime" value="${a || '07:30'}" aria-label="Wake-up time"></div>`;
+  } else {
+    body = `<div class="choices">${q.opts.map(o => { const sel = q.type === 'multi' ? (a || []).includes(o.v) : a === o.v; return `<button type="button" class="choice${sel ? ' sel' : ''}" data-v="${o.v}"><span class="e">${o.e}</span><b>${o.l}</b>${o.s ? `<small>${o.s}</small>` : ''}${q.listen ? '<small>tap to listen 🔊</small>' : ''}</button>`; }).join('')}</div>`;
+  }
+  const canNext = q.type === 'time' || (q.type === 'multi' ? (a || []).length > 0 : a !== undefined);
+  box.innerHTML = `<div class="steps" aria-label="Question ${qi+1} of ${Q.length}">${steps}</div>
+    <div class="qtop"><div class="spot" id="qBunny">${FRIENDS[q.who]({ expr: qSay ? 'happy' : 'open', cls: qSay ? 'hop-once' : 'bob' })}</div><div class="bubble tail-l">${esc(say)}</div></div>
+    <h2 class="qtitle">${q.q}</h2>${body}
+    <div class="qnav">${qi > 0 ? '<button class="btn ghost small" id="qBack" type="button">← Back</button>' : '<span></span>'}<button class="btn" id="qNext" type="button" ${canNext ? '' : 'disabled'}>${qi === Q.length - 1 ? 'See my plan ✨' : 'Next →'}</button></div>`;
+  if (q.type === 'time'){ A.wake = A.wake || '07:30'; $('#qTime').onchange = e => { A.wake = e.target.value || '07:30'; const t = hm(A.wake); qSay = t < 360 ? 'Super early bird! I\'ll make sure bedtime is early enough 🐣' : t > 600 ? 'A slow cozy morning, nice! 🌷' : `${fmt(t)}, got it! I'll bring the sunshine ☀️`; renderQuiz(); }; }
+  $$('#quiz .choice').forEach(b => b.onclick = () => {
+    const o = q.opts.find(x => String(x.v) === b.dataset.v);
+    if (q.type === 'multi'){
+      let arr = (A[q.id] || []).slice();
+      if (o.v === 'nothing') arr = arr.includes('nothing') ? [] : ['nothing'];
+      else { arr = arr.filter(x => x !== 'nothing'); arr = arr.includes(o.v) ? arr.filter(x => x !== o.v) : arr.concat(o.v); }
+      A[q.id] = arr;
+      const n = arr.length;
+      qSay = arr.includes('nothing') ? 'Amazing! Then your routine can be short and sweet 🌸' : n ? `Got it! ${n} thing${n > 1 ? 's' : ''} I'll help with 💕` : '';
+      renderQuiz();
+    } else {
+      A[q.id] = o.v; qSay = o.r || 'Perfect choice! 💕';
+      if (q.listen){ unlock(); play(o.v, .16); renderQuiz(); }
+      else { renderQuiz(); setTimeout(() => { if (Q[qi] === q){ qi++; qSay = ''; renderQuiz(); } }, 1100); }
+    }
+  });
+  if ($('#qBack')) $('#qBack').onclick = () => { qi--; qSay = ''; renderQuiz(); };
+  $('#qNext').onclick = () => { qi++; qSay = ''; renderQuiz(); };
+}
+function renderQuizResult(box, steps){
+  const p = computePlan(A), type = A.type, keeps = A.keeps || [];
+  const cards = [];
+  if (p.usePlan){
+    const shown = p.steps.length > 6 ? p.steps.slice(0, 4).concat([null], p.steps.slice(-1)) : p.steps;
+    cards.push(`<div class="soft-box"><h3>🐾 Your hop-by-hop plan</h3><p class="muted">Jumping straight from ${fmt(p.from)} to ${fmt(p.target)} would be really hard. Instead, your bedtime hops 15 minutes earlier every 2 nights. You'll reach your goal in about ${(p.steps.length - 1) * 2} nights.</p>
+      <div class="plan">${shown.map((s, i) => s ? `<div class="plan-step${i === shown.length - 1 ? ' goal' : ''}"><span class="when">${s.night === 0 ? 'Tonight' : 'Night ' + (s.night + 1)}</span>${fmt(s.t)}${i === shown.length - 1 ? ' · goal! 🏆' : ''}</div>` : '<div class="plan-step"><span class="when">…</span>a little earlier each time</div>').join('')}</div></div>`);
+  } else {
+    cards.push(`<div class="soft-box"><h3>🌙 Your bedtime: ${fmt(p.target)}</h3><p class="muted">${p.gap <= 0 ? 'You already fall asleep around a great time, so we\'ll keep it steady.' : 'You\'re already close, so we can start your goal bedtime tonight.'} That gives you ${dur((hm(A.wake) - p.target + 1440) % 1440)} before your ${fmt(hm(A.wake))} wake-up.</p></div>`);
+  }
+  if (type === 'snooze') cards.push(`<div class="soft-box"><h3>👑 Snooze Queen rules</h3><p class="muted">You get 2 snoozes max. Get up with zero snoozes and Sunny gives you a bonus carrot every morning.</p></div>`);
+  if (type === 'restless' || keeps.includes('thoughts')) cards.push(`<div class="soft-box"><h3>🫧 Calm-down kit</h3><p class="muted">Clover added Bunny Breathing and a Brain Dump page to your routine, so racing thoughts have somewhere to go.</p></div>`);
+  if (keeps.includes('phone') || keeps.includes('shows')) cards.push(`<div class="soft-box"><h3>📱 Screen goodnight</h3><p class="muted">Your routine includes putting the phone on its charger across the room. Bunbun will be your alarm, so you don't need it in bed.</p></div>`);
+  if (type === 'bird') cards.push(`<div class="soft-box"><h3>🐣 Early bird perk</h3><p class="muted">Your sleepy feeling comes early, so listen to it! Clover's wind-down will help you not push past it.</p></div>`);
+  if (type === 'owl' && !p.usePlan) cards.push(`<div class="soft-box"><h3>🦉 Night owl tip</h3><p class="muted">Bright light right after waking helps move your body clock earlier. Sunny will remind you in the morning.</p></div>`);
+  box.innerHTML = `<div class="steps">${steps}</div>
+    <div class="qtop"><div class="spot">${bunbun({ expr:'happy', cls:'hop' })}</div><div class="bubble tail-l">Ta-da! Here's your plan, ${NAME}. Pip is already cheering for you 🎉</div></div>
+    <h2 class="qtitle">Laasya's sleep plan</h2>
+    <div class="result-cards">${cards.join('')}<div class="soft-box"><h3>🥕 Welcome gift</h3><p class="muted">2 carrots to start your jar${S.onboarded ? ' (only on your first quiz)' : ''}. Collect more by sleeping and waking on time to unlock outfits for Bunbun.</p></div></div>
+    <div class="qnav"><button class="btn ghost small" id="qBack" type="button">← Change answers</button><button class="btn" id="qDone" type="button">Hop into my burrow 🐰</button></div>`;
+  $('#qBack').onclick = () => { qi = Q.length - 1; renderQuiz(); };
+  $('#qDone').onclick = () => {
+    const first = !S.onboarded;
+    S.quiz = JSON.parse(JSON.stringify(A)); S.wake = A.wake; S.bed = toHM(p.target); S.wind = A.wind || 30;
+    S.plan = p.usePlan ? { from:r15(p.from), start:nightKey() } : null;
+    S.fired = {}; S.onboarded = true; save();
+    if (first) addCarrots(2);
+    burst(); go('home');
+    toast('Pip', first ? '+2 🥕 Welcome to the burrow!' : 'Plan updated!', `Tonight's bedtime is ${fmt(tonightBed())}. Clover will remind you before.`);
+  };
+}
+
+/* ================= HOME ================= */
+let lastPhase = '';
+function phaseOf(now){
+  const nm = nowMin(now), bed = tonightBed(), wake = hm(S.wake);
+  if (((nm - bed + 1440) % 1440) < ((wake - bed + 1440) % 1440)) return 'late';
+  if (S.wind > 0 && until(bed, now) <= S.wind) return 'wind';
+  const h = now.getHours();
+  if (h >= 5 && h < 12) return 'morning';
+  if (h >= 12 && h < 17) return 'day';
+  return 'evening';
+}
+function renderHome(){
+  const p = planInfo(), bed = tonightBed();
+  $('#tonBed').textContent = fmt(bed);
+  $('#tonLine').textContent = `Wake up at ${fmt(hm(S.wake))} · ${dur((hm(S.wake) - bed + 1440) % 1440)} of sleep`;
+  $('#planBox').innerHTML = p ? `<div class="soft-box" style="margin-top:12px"><span class="label">🐾 Hop-by-hop plan</span><span class="muted">${p.done ? 'You made it to your goal bedtime! 🏆' : `Hop ${p.step + 1} of ${p.total + 1} · goal ${fmt(hm(S.bed))} in about ${p.nightsLeft} nights`}</span><div class="bar"><i style="width:${(p.step / p.total * 100).toFixed(0)}%"></i></div></div>` : '';
+  $('#bedT').value = S.bed; $('#wakeT').value = S.wake; $('#windSel').value = String(S.wind);
+  const tasks = taskList(), done = (S.routine[nightKey()] || []).filter(x => tasks.includes(x)).length;
+  $('#tileRoutine').textContent = `${done} of ${tasks.length} steps done tonight`;
+  $('#tileRoutineBar').style.width = (done / tasks.length * 100) + '%';
+  $('#tileDiary').textContent = `${S.streak}-night streak ${S.streak >= 3 ? '🔥' : '💗'} · best ${S.best}`;
+  const next = nextItem();
+  $('#tileWard').textContent = next ? `${S.carrots} 🥕 · ${next.cost - S.carrots} more for the ${next.name}` : `${S.carrots} 🥕 · everything unlocked!`;
+  $('#tileWardBar').style.width = next ? Math.min(100, S.carrots / next.cost * 100) + '%' : '100%';
+  $('#friends').innerHTML = FRIEND_JOBS.map(([n, j], i) => `<div class="friend">${FRIENDS[n]({ cls:'bob' })}<b>${n}</b><span>${j}</span></div>`).join('');
+  $$('#friends .bunny').forEach((b, i) => { b.style.animationDelay = (i*.4) + 's'; b.onclick = () => hopEl(b); });
+  lastPhase = ''; tick();
+}
+function hopEl(b){ b.classList.remove('bob','hop-once'); void b.getBoundingClientRect(); b.classList.add('hop-once'); setTimeout(() => { b.classList.remove('hop-once'); b.classList.add('bob'); }, 1800); }
+function drawHomeMood(ph){
+  const lines = {
+    morning: `Good morning, ${NAME}! Open the curtains. Morning light helps your body clock 🌞`,
+    day: `Hi ${NAME}! Bedtime tonight is ${fmt(tonightBed())}. Clover will remind you, so go have a lovely day 🌸`,
+    evening: `Evening, ${NAME}! Try keeping screens a little dimmer from here. Bedtime is ${fmt(tonightBed())} 🌷`,
+    wind: `Cozy time, ${NAME}! Let's do your bedtime routine together 🛁`,
+    late: `Psst… it's past bedtime, ${NAME} 🥺 Want me to tuck you in?`,
+  };
+  const r = S.history[lastNightKey()] || {};
+  let say = lines[ph];
+  if (ph === 'morning' && !r.mood) say = `Good morning, ${NAME}! Sunny wants to know how you slept ☀️`;
+  $('#say').textContent = say;
+  let cta;
+  if ((ph === 'morning' || ph === 'day') && !r.mood) cta = `<button class="btn" data-go="morning" type="button">How did I sleep? ☀️</button>`;
+  else if (ph === 'wind' || ph === 'late' || ph === 'evening') cta = `<button class="btn green" data-go="routine" type="button">Bedtime routine 🛁</button><button class="btn ghost" data-bed type="button">Tuck me in 💤</button>`;
+  else cta = `<button class="btn" data-go="routine" type="button">Peek at tonight's routine 🛁</button>`;
+  $('#homeCta').innerHTML = cta;
+  const expr = ph === 'morning' || ph === 'wind' ? 'happy' : 'open';
+  $('#homeBunny').innerHTML = bunbun({ expr, droop: ph === 'late', cls: ph === 'late' ? 'breathe' : 'bob' });
+  $('#homeBunny .bunny').onclick = () => { hopEl($('#homeBunny .bunny')); play('ding', .1); };
+}
+function tick(){
+  const now = new Date();
+  if (view === 'home'){
+    const t = fmt(nowMin(now)).split(' ');
+    $('#hhmm').textContent = t[0]; $('#ss').textContent = ':' + pad(now.getSeconds()); $('#ap').textContent = t[1];
+    $('#date').textContent = `${DAYS[now.getDay()]}, ${MONTHS[now.getMonth()]} ${now.getDate()}`;
+    const ph = phaseOf(now), toBed = until(tonightBed(), now), chip = $('#chip');
+    if (ph === 'late'){ chip.className = 'chip late'; chip.textContent = `🌙 Sleepy time · wake at ${fmt(hm(S.wake))}`; }
+    else if (ph === 'wind'){ chip.className = 'chip wind'; chip.textContent = `🛁 Wind-down · bed in ${dur(toBed)}`; }
+    else { chip.className = 'chip'; chip.textContent = `💗 Bedtime in ${dur(toBed)}`; }
+    if (ph !== lastPhase){ lastPhase = ph; drawHomeMood(ph); }
+  }
+  if (view === 'routine' && $('#routineBed')) $('#routineBed').textContent = `Bedtime ${fmt(tonightBed())} · in ${dur(until(tonightBed(), now))}`;
+  check(now); tickSleep();
+}
+$('#bedT').addEventListener('change', e => { if (!e.target.value) return; S.bed = e.target.value; S.fired.bed = null; S.fired.wind = null; if (S.plan && !planInfo()) S.plan = null; save(); renderHome(); toast('Clover','Goal bedtime set!', `Tonight's bedtime is ${fmt(tonightBed())} 🌙`, 5000); });
+$('#wakeT').addEventListener('change', e => { if (!e.target.value) return; S.wake = e.target.value; S.quiz.wake = S.wake; S.fired.wake = null; save(); renderHome(); toast('Sunny','Wake-up set!', `I'll bring the sunshine at ${fmt(hm(S.wake))} ☀️`, 5000); });
+$('#windSel').addEventListener('change', e => { S.wind = +e.target.value; S.fired.wind = null; save(); renderHome(); });
+$('#testWake').onclick = () => { unlock(); showAlarm('wake', true); };
+$('#testBed').onclick = () => { unlock(); showAlarm('bed', true); };
+$('#redoQuiz').onclick = () => { A = JSON.parse(JSON.stringify(S.quiz)); qi = 0; qSay = ''; go('welcome'); };
+
+/* ================= ROUTINE ================= */
+const TASKS = {
+  pajamas:{ e:'👚', l:'Change into comfy pajamas', s:'The softest ones, obviously' },
+  teeth:  { e:'🪥', l:'Brush your teeth', s:'Two whole minutes. Bunbun is counting!', timer:120 },
+  skin:   { e:'🧴', l:'Wash your face & skincare', s:'Glowy bunny cheeks' },
+  water:  { e:'💧', l:'Sip some water', s:'A few sips, not a whole bottle' },
+  phone:  { e:'📱', l:'Phone on the charger, across the room', s:'Sunny will be your alarm tonight' },
+  shows:  { e:'📺', l:'Last episode is done', s:'Save the cliffhanger for tomorrow' },
+  study:  { e:'🎒', l:'Pack your bag for tomorrow', s:'Homework is done for today. It can wait!' },
+  lights: { e:'💡', l:'Lights low & cozy', s:'Lamp or fairy lights only' },
+  cool:   { e:'❄️', l:'Room cool and dark', s:'Crack a window, turn on a fan, close the curtains' },
+  stretch:{ e:'🧘', l:'Sleepy bunny stretch', s:'Reach up, fold down, 5 slow breaths' },
+  breathe:{ e:'🫧', l:'Bunny breathing', s:'3 slow rounds with Clover', panel:'breathe' },
+  dump:   { e:'📝', l:'Brain dump', s:"Write down tomorrow's worries so they can wait", panel:'dump' },
+  happy:  { e:'🌈', l:'3 happy things from today', s:'Little things count too', panel:'happy' },
+};
+function taskList(){
+  const k = S.quiz.keeps || [], t = S.quiz.type, L = ['pajamas','teeth','skin','water'];
+  if (k.includes('phone')) L.push('phone');
+  if (k.includes('shows')) L.push('shows');
+  if (k.includes('study')) L.push('study');
+  L.push('lights');
+  if (k.includes('notsleepy') || t === 'owl') L.push('stretch');
+  if (k.includes('thoughts') || t === 'restless') L.push('breathe','dump');
+  (S.extras || []).forEach(x => { if (!L.includes(x)) L.push(x); });
+  return L;
+}
+const doneList = () => (S.routine[nightKey()] = S.routine[nightKey()] || []);
+const routineDone = () => { const t = taskList(), d = S.routine[nightKey()] || []; return t.every(x => d.includes(x)); };
+let openPanel = null, breathRun = 0, teethTimer = null;
+function renderRoutine(){
+  const tasks = taskList(), d = doneList();
+  $('#routineBunny').innerHTML = FRIENDS.Clover({ cls:'bob' });
+  $('#tasks').innerHTML = tasks.map(id => {
+    const t = TASKS[id], on = d.includes(id);
+    return `<button type="button" class="task${on ? ' done' : ''}" data-task="${id}" aria-pressed="${on}"><span class="box">${on ? '✓' : ''}</span><span class="e">${t.e}</span><span class="tx"><span class="tl">${t.l}</span><span class="ts">${t.s}</span></span>${t.panel && !on ? '<span class="open">Open ›</span>' : t.timer && !on ? '<span class="open">⏱ Timer</span>' : ''}</button>${t.panel || t.timer ? `<div class="panel" id="panel-${id}" hidden></div>` : ''}`;
+  }).join('');
+  $$('.task').forEach(b => b.onclick = () => onTask(b.dataset.task));
+  if (openPanel && tasks.includes(openPanel) && !d.includes(openPanel)) showPanel(openPanel);
+  updateRoutine();
+}
+function onTask(id){
+  const t = TASKS[id], d = doneList();
+  if ((t.panel || t.timer) && !d.includes(id)){ if (openPanel === id){ hidePanels(); openPanel = null; } else showPanel(id); return; }
+  toggleTask(id);
+}
+function toggleTask(id, force){
+  const d = doneList(), on = d.includes(id), el = $(`.task[data-task="${id}"]`);
+  if (force === true && on) return;
+  if (on){ d.splice(d.indexOf(id), 1); }
+  else { d.push(id); play('ding', .08); if (el) burstSmall(el); }
+  save();
+  if (el){ el.classList.toggle('done', !on); el.setAttribute('aria-pressed', String(!on)); el.querySelector('.box').textContent = on ? '' : '✓'; const op = el.querySelector('.open'); if (op) op.remove(); }
+  if (!on && openPanel === id){ hidePanels(); openPanel = null; }
+  const b = $('#routineBunny .bunny'); if (b) hopEl(b);
+  updateRoutine();
+}
+function burstSmall(el){ if (matchMedia('(prefers-reduced-motion: reduce)').matches) return; const r = el.getBoundingClientRect(); for (let i = 0; i < 6; i++){ const s = document.createElement('span'); s.className = 'confetti'; s.style.fontSize = '18px'; s.textContent = ['💗','✨','🌸'][i % 3]; s.style.left = (r.left + 30) + 'px'; s.style.top = (r.top + r.height/2) + 'px'; const a = Math.random()*Math.PI*2; s.style.setProperty('--dx', Math.cos(a)*60 + 'px'); s.style.setProperty('--dy', Math.sin(a)*60 - 30 + 'px'); s.style.setProperty('--r', '40deg'); document.body.appendChild(s); setTimeout(() => s.remove(), 1500); } }
+function updateRoutine(){
+  const tasks = taskList(), d = doneList(), n = tasks.filter(x => d.includes(x)).length, all = n === tasks.length;
+  $('#routineCount').textContent = `${n} of ${tasks.length} done`;
+  $('#routineBar').style.width = (n / tasks.length * 100) + '%';
+  const says = ['Let\'s get cozy, ' + NAME + '! Tap each step when you finish it 🌸', 'Great start! Keep hopping along 🐾', 'Over halfway there! You\'re doing amazing 💕', 'Almost done, just a little more 🌙', 'All done! You\'re the coziest bunny in the burrow ✨'];
+  $('#routineSay').textContent = all ? says[4] : says[Math.min(3, Math.floor(n / tasks.length * 4))];
+  const r = rec(nightKey());
+  if (all && !r.routine){ r.routine = true; save(); addCarrots(1); burst(); toast('Clover','+1 🥕 Routine complete!','Your brain knows sleep is coming. Time to tuck in 💤', 9000); }
+  $('#allSet').innerHTML = all
+    ? `<div class="spot">${bunbun({ expr:'sleep', droop:'both', cls:'breathe' })}</div><h2 style="justify-content:center">All cozy! 💤</h2><p class="muted">Bedtime is ${fmt(tonightBed())}. Climb in, snuggle up, and let Sunny handle the morning.</p><button class="btn" data-bed type="button">Tuck me in 💤</button>`
+    : `<div class="spot">${bunbun({ expr:'open', cls:'bob' })}</div><h2 style="justify-content:center">${tasks.length - n} step${tasks.length - n === 1 ? '' : 's'} to go</h2><p class="muted">Finish your routine for a bonus carrot, then tuck in. Already in bed? That's okay too.</p><button class="btn ghost" data-bed type="button">Skip to tuck me in 💤</button>`;
+}
+function hidePanels(){ $$('.panel').forEach(p => { p.hidden = true; p.innerHTML = ''; }); breathRun++; clearInterval(teethTimer); }
+function showPanel(id){
+  hidePanels(); openPanel = id; const p = $('#panel-' + id); if (!p) return; p.hidden = false;
+  if (id === 'breathe'){
+    p.innerHTML = `<div class="breath" id="breathC">${FRIENDS.Clover({ expr:'happy' })}</div><div class="breath-say" id="breathSay">Ready when you are</div><div class="actions" style="justify-content:center"><button class="btn green" id="breathGo" type="button">Start breathing 🫧</button></div>`;
+    $('#breathGo').onclick = () => runBreath();
+  } else if (id === 'dump'){
+    const prev = (S.notes[nightKey()] || {}).dump || '';
+    p.innerHTML = `<label class="label" for="dumpTxt">What's on your mind for tomorrow?</label><textarea id="dumpTxt" placeholder="Quiz on Friday, text mom back, buy shampoo…">${esc(prev)}</textarea><div class="actions"><button class="btn" id="dumpGo" type="button">Give it to Clover to keep 💌</button></div><p class="muted" style="font-size:13px">Saved only on this device. You'll see it in your diary.</p>`;
+    $('#dumpGo').onclick = () => { const v = $('#dumpTxt').value.trim(); if (!v){ $('#dumpTxt').focus(); return; } (S.notes[nightKey()] = S.notes[nightKey()] || {}).dump = v; save(); toggleTask('dump', true); toast('Clover','Kept safe 💌','Your thoughts are tucked away until morning. You can let them go now.', 6000); };
+  } else if (id === 'happy'){
+    const prev = (S.notes[nightKey()] || {}).happy || ['','',''];
+    p.innerHTML = `<span class="label">Three happy things from today</span>${[0,1,2].map(i => `<input type="text" id="hp${i}" maxlength="80" value="${esc(prev[i] || '')}" placeholder="${['A yummy snack','Someone made me laugh','The sky looked pretty'][i]}">`).join('')}<div class="actions"><button class="btn" id="happyGo" type="button">Save my happy things 🌈</button></div>`;
+    $('#happyGo').onclick = () => { const v = [0,1,2].map(i => $('#hp' + i).value.trim()); if (!v[0]){ $('#hp0').focus(); return; } (S.notes[nightKey()] = S.notes[nightKey()] || {}).happy = v; save(); toggleTask('happy', true); toast('Pip','Those are so nice 🥹','Happy thoughts make sweet dreams.', 6000); };
+  } else if (id === 'teeth'){
+    p.innerHTML = `<div class="breath-say" id="teethT">2:00</div><div class="bar"><i id="teethBar" style="width:0"></i></div><div class="actions" style="justify-content:center"><button class="btn green" id="teethGo" type="button">Start 2-minute timer 🪥</button><button class="btn ghost small" id="teethSkip" type="button">Already brushed ✓</button></div>`;
+    $('#teethSkip').onclick = () => toggleTask('teeth', true);
+    $('#teethGo').onclick = () => {
+      let left = 120; $('#teethGo').disabled = true; clearInterval(teethTimer);
+      teethTimer = setInterval(() => {
+        left--; if (!$('#teethT')) { clearInterval(teethTimer); return; }
+        $('#teethT').textContent = `${Math.floor(left/60)}:${pad(left%60)}${left === 60 ? ' · switch sides!' : ''}`; $('#teethBar').style.width = ((120 - left) / 120 * 100) + '%';
+        if (left === 60) play('ding', .08);
+        if (left <= 0){ clearInterval(teethTimer); play('chime', .12); toggleTask('teeth', true); }
+      }, 1000);
+    };
+  }
+}
+function runBreath(){
+  const my = ++breathRun, c = $('#breathC'), say = $('#breathSay'); $('#breathGo').disabled = true;
+  const seq = []; for (let r = 0; r < 3; r++) seq.push(['Breathe in… 🌸', 4, 1], ['Hold…', 4, 1], ['Breathe out… 🍃', 6, .72]);
+  let i = 0;
+  const step = () => {
+    if (my !== breathRun || !$('#breathC')) return;
+    if (i >= seq.length){ say.textContent = 'So calm. Well done 💕'; setTimeout(() => { if (my === breathRun) toggleTask('breathe', true); }, 1200); return; }
+    const [txt, secs, scale] = seq[i];
+    say.textContent = `${txt} (round ${Math.floor(i/3) + 1} of 3)`;
+    c.style.transitionDuration = secs + 's'; c.style.transform = `scale(${scale})`;
+    i++; setTimeout(step, secs*1000);
+  };
+  step();
+}
+
+/* ================= MORNING ================= */
+let morningState = null;
+const MOODS = [
+  { v:'amazing', e:'🌈', l:'Amazing!' },
+  { v:'okay',    e:'🌤️', l:'Pretty okay' },
+  { v:'sleepy',  e:'😪', l:'Still sleepy' },
+  { v:'bad',     e:'🌧️', l:'Bad night' },
+];
+const BAD = {
+  cantsleep:{ e:'🌀', l:"Couldn't fall asleep", tips:['If you\'re awake for more than 20 minutes, get up and do something calm in dim light, then try again.','Keep the same wake-up time today, even if you\'re tired. It makes tonight easier.','Bunny breathing slows everything down. It\'s great for nights like this.'], extra:'breathe', act:'Add Bunny Breathing to tonight' },
+  wokeup:   { e:'🌗', l:'Kept waking up', tips:['A cool, dark, quiet room helps you stay asleep.','Try no caffeine after lunch: coffee, tea, energy drinks, and soda count.','Skip big snacks right before bed.'], extra:'cool', act:'Add "room cool & dark" to tonight' },
+  phone:    { e:'📱', l:'Stayed up on my phone', tips:['Phone light tells your brain it\'s still daytime.','Charging it across the room makes it much easier to stop.','Starting your wind-down earlier gives you time to relax without it.'], extra:'phone', act:'Wind down 15 min earlier + add phone step', wind:true },
+  dream:    { e:'👻', l:'Had a bad dream', tips:['Bad dreams happen to everyone. You\'re safe, and it\'s over.','Thinking about happy things before bed can help your mind settle.','A soft night light or a cozy plushie nearby is totally allowed.'], extra:'happy', act:'Add "3 happy things" to tonight' },
+};
+function renderMorning(){
+  const box = $('#morning'), k = lastNightKey(), r = rec(k);
+  if (!morningState) morningState = { step: r.mood || 'ask' };
+  const st = morningState.step;
+  const slept = r.bedAt && r.wakeAt ? `You slept ${dur((r.wakeAt - r.bedAt) / 60000)} last night${r.bed && r.wake ? ', right on schedule 💗' : '.'}` : r.bedAt ? 'Bunbun tucked you in last night 🌙' : '';
+  const head = (who, say, cls = 'hop-once') => `<div class="qtop"><div class="spot">${FRIENDS[who]({ expr:'happy', cls })}</div><div class="bubble tail-l">${say}</div></div>`;
+  const again = `<div class="qnav"><button class="btn ghost small" id="mAgain" type="button">← Change my answer</button><button class="btn" data-go="home" type="button">Back home 🏡</button></div>`;
+  if (st === 'ask'){
+    box.innerHTML = `<h2>☀️ Morning check-in</h2>${head('Sunny', `Good morning, ${NAME}! ${slept} How did you sleep?`, 'bob')}<div class="moods">${MOODS.map(m => `<button type="button" class="choice" data-m="${m.v}"><span class="e">${m.e}</span><b>${m.l}</b></button>`).join('')}</div><p class="muted" style="margin-top:14px;text-align:center">Checking in earns a carrot 🥕</p>`;
+    $$('#morning .choice').forEach(b => b.onclick = () => {
+      r.mood = b.dataset.m; if (!r.checkin){ r.checkin = true; addCarrots(1); }
+      save(); morningState = { step:r.mood }; renderMorning(); window.scrollTo(0, 0);
+      if (r.mood === 'amazing') setTimeout(() => burst(), 200);
+    });
+    return;
+  }
+  if (st === 'amazing'){
+    const helped = r.helped || [];
+    box.innerHTML = `<h2>🌈 Best. Sleep. Ever.</h2>${head('Pip', `Yaaay ${NAME}! Pip is doing a happy dance 💃 Remember this feeling, your body loves good sleep!`, 'hop')}
+      <div class="soft-box"><span class="label">What helped last night? (tap any)</span><div class="chips" id="helped">${['Bedtime routine','Phone away','Went to bed on time','Cozy blankets','Bunny breathing','No late snacks','Quiet room'].map(h => `<button type="button" class="cchip${helped.includes(h) ? ' sel' : ''}">${h}</button>`).join('')}</div><span class="muted" style="font-size:13px">Saved in your diary so you can do it again.</span></div>
+      <div class="soft-box" style="margin-top:14px"><span class="big">${S.streak}-night streak ${S.streak >= 3 ? '🔥' : '💗'}</span><span class="muted">${S.carrots} carrots in your jar.</span></div>${again}`;
+    $$('#helped .cchip').forEach(b => b.onclick = () => { const h = b.textContent; r.helped = (r.helped || []).includes(h) ? r.helped.filter(x => x !== h) : (r.helped || []).concat(h); save(); b.classList.toggle('sel'); });
+  } else if (st === 'okay'){
+    const sd = morningState.stretch || [];
+    const S3 = [['🥕','Reach for the carrots','Arms way up high, 5 slow breaths'],['🐰','Bunny ear rolls','Roll your shoulders back 10 times'],['🦘','Little hops','10 tiny hops or jumping jacks']];
+    box.innerHTML = `<h2>🌤️ A solid night!</h2>${head('Sunny', `Okay is good, ${NAME}! Let's wake your body up with 3 bunny stretches. Tap each one when you finish.`)}
+      <div class="stretches">${S3.map((s, i) => `<button type="button" class="choice${sd.includes(i) ? ' sel' : ''}" data-i="${i}"><span class="e">${sd.includes(i) ? '✅' : s[0]}</span><b>${s[1]}</b><small>${s[2]}</small></button>`).join('')}</div>
+      ${sd.length === 3 ? `<div class="soft-box" style="margin-top:14px;text-align:center"><span class="big">All stretched! 🌟</span><span class="muted">Have a lovely day. Bedtime tonight is ${fmt(tonightBed())}.</span></div>` : ''}${again}`;
+    $$('#morning .stretches .choice').forEach(b => b.onclick = () => { const i = +b.dataset.i; morningState.stretch = sd.includes(i) ? sd.filter(x => x !== i) : sd.concat(i); play('ding', .08); renderMorning(); if (morningState.stretch.length === 3) burst(); });
+  } else if (st === 'sleepy'){
+    const aw = morningState.awake || [];
+    const furs = ['white','pink','lavender','cream','grey','sunny'];
+    box.innerHTML = `<h2>😪 Wake-up boost</h2>${head('Sunny', `Still sleepy? Let's wake up together! Boop all 6 bunnies awake, ${NAME} 👉🐰`)}
+      <div class="boop">${furs.map((f, i) => `<button type="button" class="${aw.includes(i) ? 'awake' : ''}" data-i="${i}" aria-label="Boop bunny ${i+1}">${bunny({ fur:f, expr: aw.includes(i) ? 'happy' : 'sleep', droop: aw.includes(i) ? false : 'both', cls: aw.includes(i) ? 'hop-once' : 'breathe' })}</button>`).join('')}</div>
+      <p class="muted" style="text-align:center;margin-top:10px">${aw.length}/6 bunnies awake</p>
+      ${aw.length === 6 ? `<div class="soft-box" style="margin-top:10px"><span class="big">Everyone's up, including you! ☀️</span><ul class="tips"><li>☀️ Open the curtains or step outside. Morning light is the strongest wake-up signal.</li><li>💧 Drink a full glass of water.</li><li>🌊 Splash cool water on your face.</li><li>🍓 Eat a little breakfast, even something small.</li></ul></div>` : ''}${again}`;
+    $$('#morning .boop button').forEach(b => b.onclick = () => { const i = +b.dataset.i; if (aw.includes(i)) return; morningState.awake = aw.concat(i); play('ding', .1); renderMorning(); if (morningState.awake.length === 6) burst(); });
+  } else if (st === 'bad'){
+    box.innerHTML = `<h2>🌧️ Rough night</h2>${head('Clover', `Aww, ${NAME}. I'm sorry 🫂 That happens to everyone sometimes. What happened?`, 'breathe')}
+      <div class="moods">${Object.entries(BAD).map(([k2, b]) => `<button type="button" class="choice" data-b="${k2}"><span class="e">${b.e}</span><b>${b.l}</b></button>`).join('')}</div>${again}`;
+    $$('#morning [data-b]').forEach(b => b.onclick = () => { r.badWhy = b.dataset.b; save(); morningState = { step:'bad-x', why:b.dataset.b }; renderMorning(); });
+  } else if (st === 'bad-x'){
+    const why = morningState.why || r.badWhy, b = BAD[why];
+    const added = (S.extras || []).includes(b.extra) && (!b.wind || morningState.added);
+    box.innerHTML = `<h2>${b.e} ${b.l}</h2>${head('Clover', `Thank you for telling me. Here's what can help, and we can make tonight a little easier.`, 'bob')}
+      <ul class="tips">${b.tips.map(t => `<li>🌸 ${t}</li>`).join('')}</ul>
+      <div class="soft-box" style="margin-top:14px"><span class="label">For tonight</span><div class="actions"><button class="btn green" id="badAct" type="button" ${added ? 'disabled' : ''}>${added ? 'Added to tonight ✓' : b.act}</button></div></div>
+      <div class="qnav"><button class="btn ghost small" id="badBack" type="button">← Something else happened</button><button class="btn" data-go="home" type="button">Back home 🏡</button></div>`;
+    $('#badAct').onclick = () => { if (!S.extras.includes(b.extra)) S.extras.push(b.extra); if (b.wind) S.wind = Math.min(60, S.wind + 15); morningState.added = true; save(); toast('Clover','Done 💕', b.wind ? `Wind-down now starts ${S.wind} minutes before bed, and your routine has a phone step.` : 'I added it to your bedtime routine.', 7000, { label:'See routine', fn:() => go('routine') }); renderMorning(); };
+    $('#badBack').onclick = () => { morningState = { step:'bad' }; renderMorning(); };
+    return;
+  }
+  if ($('#mAgain')) $('#mAgain').onclick = () => { morningState = { step:'ask' }; renderMorning(); };
+}
+
+/* ================= DIARY ================= */
+function hoursOf(r){ return r && r.bedAt && r.wakeAt ? (r.wakeAt - r.bedAt) / 3.6e6 : null; }
+function renderDiary(){
+  const base = new Date(Date.parse(lastNightKey() + 'T12:00:00'));
+  const nights = []; for (let i = 13; i >= 0; i--){ const d = new Date(base); d.setDate(d.getDate() - i); nights.push({ d, k:dkey(d), r:S.history[dkey(d)] || {} }); }
+  const last7 = nights.slice(-7), hrs = last7.map(n => hoursOf(n.r)).filter(h => h != null);
+  const avg = hrs.length ? hrs.reduce((a, b) => a + b, 0) / hrs.length : null;
+  $('#stats').innerHTML = [['🥕 Carrots', S.carrots], ['💗 Streak', S.streak + (S.streak === 1 ? ' night' : ' nights')], ['🏆 Best streak', S.best], ['💤 Avg sleep (7 nights)', avg != null ? dur(avg*60) : '–']].map(([l, v]) => `<div class="stat"><span class="label">${l}</span><b>${v}</b></div>`).join('');
+  const W = 640, H = 240, L = 34, R = 10, T = 22, B = 34, cw = (W - L - R) / 7, y = h => T + (H - T - B) * (1 - Math.min(h, 12) / 12);
+  let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Hours slept each night">`;
+  svg += `<rect class="band" x="${L}" y="${y(9)}" width="${W - L - R}" height="${y(7) - y(9)}" rx="6"/>`;
+  [0, 4, 8, 12].forEach(h => { svg += `<line class="grid-l" x1="${L}" x2="${W - R}" y1="${y(h)}" y2="${y(h)}"/><text x="${L - 8}" y="${y(h) + 4}" text-anchor="end">${h}h</text>`; });
+  last7.forEach((n, i) => {
+    const h = hoursOf(n.r), x = L + i*cw + cw*.2, w = cw*.6;
+    if (h != null){ svg += `<rect class="barr" x="${x}" y="${y(h)}" width="${w}" height="${y(0) - y(h)}" rx="10"/><text class="v" x="${x + w/2}" y="${y(h) - 6}" text-anchor="middle">${h.toFixed(1)}</text>`; }
+    else svg += `<rect class="ph" x="${x}" y="${y(2)}" width="${w}" height="${y(0) - y(2)}" rx="10"/>`;
+    svg += `<text x="${x + w/2}" y="${H - 12}" text-anchor="middle">${DAYS[n.d.getDay()].slice(0, 3)}</text>`;
+  });
+  $('#chart').innerHTML = svg + '</svg>';
+  const logged = nights.filter(n => Object.keys(n.r).length).reverse();
+  const moodE = { amazing:'🌈', okay:'🌤️', sleepy:'😪', bad:'🌧️' };
+  $('#nights').innerHTML = logged.length ? logged.map(n => {
+    const r = n.r, h = hoursOf(r), note = S.notes[n.k] || {};
+    const extra = [r.helped && r.helped.length ? `Helped: ${r.helped.join(', ')}` : '', r.badWhy ? `Rough night: ${BAD[r.badWhy].l.toLowerCase()}` : '', note.dump ? `📝 ${note.dump}` : '', note.happy ? `🌈 ${note.happy.filter(Boolean).join(' · ')}` : ''].filter(Boolean);
+    return `<div class="nrow"><span class="d">${moodE[r.mood] || '🌙'} ${DAYS[n.d.getDay()].slice(0, 3)}<small>${MONTHS[n.d.getMonth()].slice(0, 3)} ${n.d.getDate()}</small></span>
+      <span class="marks"><span class="mk${r.bed ? ' y' : ''}">🌙 bed on time</span><span class="mk${r.wake ? ' y' : ''}">☀️ up on time</span><span class="mk${r.routine ? ' y' : ''}">🛁 routine</span>${extra.length ? `<span class="muted" style="font-size:13px;flex-basis:100%">${esc(extra.join('  ·  '))}</span>` : ''}</span>
+      <span class="hrs">${h != null ? dur(h*60) : '–'}</span></div>`;
+  }).join('') : `<div class="empty"><div class="spot">${bunbun({ expr:'sleep', droop:'both', cls:'breathe' })}</div><b>No nights yet</b><span class="muted">Tap "Tuck me in" tonight and "I'm up" in the morning. Your first night will show up here with hours, mood and carrots.</span><button class="btn small" data-go="routine" type="button">Go to tonight's routine 🛁</button></div>`;
+}
+
+/* ================= WARDROBE ================= */
+let wTab = 'head';
+const nextItem = () => ITEMS.filter(it => it.cost > S.carrots).sort((a, b) => a.cost - b.cost)[0];
+function renderWardrobe(){
+  $('#stage').innerHTML = bunbun({ expr:'happy', cls:'bob' });
+  $('#stage .bunny').onclick = () => { hopEl($('#stage .bunny')); play('ding', .1); };
+  $('#wCarrots').textContent = S.carrots;
+  const next = nextItem();
+  $('#wNext').textContent = next ? `${next.cost - S.carrots} more carrot${next.cost - S.carrots === 1 ? '' : 's'} to unlock the ${next.name}` : 'Every outfit unlocked. Bunbun is the best-dressed bunny in the burrow 👑';
+  $('#wBar').style.width = next ? Math.min(100, S.carrots / next.cost * 100) + '%' : '100%';
+  $('#wTabs').innerHTML = SLOTS.map(([s, l]) => `<button type="button" class="tab${wTab === s ? ' on' : ''}" data-slot="${s}">${l}</button>`).join('');
+  $$('#wTabs .tab').forEach(b => b.onclick = () => { wTab = b.dataset.slot; renderWardrobe(); });
+  $('#closet').innerHTML = ITEMS.filter(it => it.slot === wTab).map(it => {
+    const open = S.carrots >= it.cost, on = S.outfit[it.slot] === it.id;
+    return `<button type="button" class="item${open ? '' : ' locked'}${on ? ' wearing' : ''}" data-id="${it.id}" ${open ? '' : 'aria-disabled="true"'}>${bunbun({ [it.slot]:it.id, expr:'happy' })}<b>${it.name}</b><span>${open ? (on ? 'Wearing' : 'Tap to wear') : `🔒 ${it.cost} 🥕`}</span></button>`;
+  }).join('');
+  $$('#closet .item').forEach(b => b.onclick = () => {
+    const it = ITEMS.find(x => x.slot === wTab && x.id === b.dataset.id);
+    if (S.carrots < it.cost){ b.classList.remove('wiggle'); void b.offsetWidth; b.classList.add('wiggle'); toast('Pip','Almost!', `Collect ${it.cost - S.carrots} more 🥕 for the ${it.name}. Sleep and wake on time to earn them!`, 5000); return; }
+    S.outfit[it.slot] = it.id; save(); renderWardrobe(); $('#logoBunny').innerHTML = bunbun({ expr:'happy' });
+    hopEl($('#stage .bunny')); play('ding', .1); burstAt($('#stage'));
+  });
+}
+
+/* ---------- reset ---------- */
+let resetArmed = null;
+$('#resetBtn').onclick = e => {
+  if (!resetArmed){ e.target.textContent = 'Tap again to erase carrots, diary and plan'; resetArmed = setTimeout(() => { e.target.textContent = 'Start fresh'; resetArmed = null; }, 4000); return; }
+  clearTimeout(resetArmed); resetArmed = null; e.target.textContent = 'Start fresh';
+  S = fresh(); save(); A = {}; qi = 0; qSay = ''; hideSleep(); closeAlarm(); view = ''; go('welcome');
+};
+
+/* ---------- floaties ---------- */
+(() => { const set = ['🌸','💗','✨','🥕','🐰','🎀','☁️','🤍']; let h = '';
+  for (let i = 0; i < 16; i++) h += `<span style="left:${(i*6.3 + Math.random()*4).toFixed(1)}%;animation-duration:${18 + Math.random()*16}s;animation-delay:-${(Math.random()*30).toFixed(1)}s;font-size:${16 + Math.random()*14 | 0}px">${set[i % set.length]}</span>`;
+  $('#floaties').innerHTML = h; })();
+
+/* ---------- boot ---------- */
+$('#logoBunny').innerHTML = bunbun({ expr:'happy' });
+route(); setInterval(tick, 1000); tick();
+if (S.sleeping) showSleep('Bunbun is keeping watch while you sleep 🌙');
+})();
+</script>
+</body>
+</html>
